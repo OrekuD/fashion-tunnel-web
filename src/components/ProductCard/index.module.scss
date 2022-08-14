@@ -1,0 +1,47 @@
+@import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
+
+.container {
+  width: 100%;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  .product-image {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 0.749;
+  }
+
+  .name {
+    font-weight: 500;
+    margin: 0.5rem 0 0.5rem 0;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+
+  .description {
+    margin: 0rem 0 0.5rem 0;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+
+  .price {
+    // font-weight: 500;
+    margin: 0.5rem 0 0.5rem 0;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+
+  @include xxxl {
+    .name {
+      font-size: 1.4rem;
+    }
+    .description {
+      font-size: 1.2rem;
+    }
+
+    .price {
+      font-size: 1.4rem;
+    }
+  }
+}

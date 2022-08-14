@@ -1,0 +1,52 @@
+@import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  // background-color: bisque;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0rem 2rem;
+  background-color: $white;
+
+  .left-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+
+    a {
+      margin-left: 2rem;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+    }
+
+    .profile-image {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  @include md {
+  }
+
+  @include lg {
+    padding: 0rem 4rem;
+  }
+
+  @include xl {
+    padding: 0rem 5rem;
+  }
+}
