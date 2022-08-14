@@ -6,4 +6,8 @@ export interface AuthenticationState {
   expiryAt: number;
 }
 
+export interface UIState {
+  isCartVisible: boolean;
+}
+
 export type CPA<T = any> = PayloadAction<T> & { dispatch: Function };

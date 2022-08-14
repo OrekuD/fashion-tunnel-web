@@ -4,10 +4,12 @@ import { combineReducers } from "redux";
 import API from "../constants/api";
 import authentication from "./slices/authentication.slice";
 import user from "./slices/user.slice";
+import ui from "./slices/ui.slice";
 
 const reducers = {
   authentication,
-  user
+  user,
+  ui,
 };
 
 const rootReducer = combineReducers(reducers);
@@ -36,7 +38,7 @@ const asyncDispatchMiddleware = (store) => (next) => (action) => {
   }
 
   const actionWithAsyncDispatch = Object.assign({}, action, {
-    dispatch
+    dispatch,
   });
 
   const res = next(actionWithAsyncDispatch);
@@ -63,7 +65,7 @@ const initializeStore = async () => {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(asyncDispatchMiddleware),
     devTools: process.env.NODE_ENV === "development",
-    preloadedState
+    preloadedState,
   });
 
   store.subscribe(async () => {

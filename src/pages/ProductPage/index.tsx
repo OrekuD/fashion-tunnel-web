@@ -14,7 +14,6 @@ import classes from "./index.module.scss";
 import { useAnimation, motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 
-const ease = [0.6, 0.05, -0.01, 0.9];
 export const imageVariant = {
   enter: (direction: number) => {
     return {
@@ -46,35 +45,17 @@ const swipePower = (offset: number, velocity: number) => {
 const ProductPage = () => {
   const params = useParams();
   const [selectedSize, setSelectedSize] = React.useState<ClothSizes.Status>(-1);
-  const animation = useAnimation();
-  const [activeImageIndex, setActiveImageIndex] = React.useState<number>(0);
   const [[page, direction], setPage] = React.useState([0, 0]);
 
-  const imageIndex = wrap(0, images.length, page);
+  const imageIndex = React.useMemo(
+    () => wrap(0, images.length, page),
+    [page, images]
+  );
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
 
-  const moveRight = () => {
-    if (activeImageIndex === images.length - 1) {
-      return;
-    }
-    animation.start("moveRight");
-    setActiveImageIndex(activeImageIndex + 1);
-  };
-
-  const moveLeft = () => {
-    if (activeImageIndex === 0) {
-      return;
-    }
-    animation.start("moveLeft");
-    setActiveImageIndex(activeImageIndex - 1);
-  };
-
-  React.useEffect(() => {
-    console.log({ params });
-  }, []);
   return (
     <div className={classes["container"]}>
       <Header />
