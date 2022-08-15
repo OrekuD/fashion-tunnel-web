@@ -14,6 +14,7 @@ import ClothSizes from "../../namespace/ClothSizes";
 import classes from "./index.module.scss";
 import { useAnimation, motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
+import useKeyPress from "../../hooks/useKeyPress";
 
 export const imageVariant = {
   enter: (direction: number) => {
@@ -56,6 +57,25 @@ const ProductPage = () => {
   const changeImage = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
+
+  const isArrowUpPressed = useKeyPress("ArrowUp");
+  const isArrowDownPressed = useKeyPress("ArrowDown");
+  const isArrowLeftPressed = useKeyPress("ArrowLeft");
+  const isArrowRightPressed = useKeyPress("ArrowRight");
+
+  React.useEffect(() => {
+    if (isArrowUpPressed || isArrowLeftPressed) {
+      changeImage(-1);
+    }
+    if (isArrowDownPressed || isArrowRightPressed) {
+      changeImage(1);
+    }
+  }, [
+    isArrowUpPressed,
+    isArrowLeftPressed,
+    isArrowDownPressed,
+    isArrowRightPressed,
+  ]);
 
   return (
     <div className={classes["container"]}>

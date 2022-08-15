@@ -9,12 +9,18 @@ import { CancelIcon } from "../Icons";
 import colors from "../../constants/colors";
 import Button from "../Button";
 import CartItem from "../CartItem";
+import { useLocation } from "react-router-dom";
 
 interface Props {}
 
 const Cart = (props: Props) => {
   const dispatch = useDispatch();
   const { ui } = useSelectState();
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    dispatch(uiActions.setCartModalState({ isVisible: false }));
+  }, [pathname]);
 
   const summary = [
     { label: "Subtotal", value: 134.99 },
