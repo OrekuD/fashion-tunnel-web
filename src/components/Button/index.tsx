@@ -8,6 +8,7 @@ interface Props {
   onClick: () => void;
   isLoading?: boolean;
   isDisabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 const Button = (props: Props) => {
@@ -16,6 +17,7 @@ const Button = (props: Props) => {
       className={classes["button"]}
       onClick={props.onClick}
       disabled={props.isDisabled}
+      style={props.style}
     >
       {props.isLoading ? (
         <Loader color={colors.white} />

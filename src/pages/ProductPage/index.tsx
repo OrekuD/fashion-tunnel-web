@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Button } from "../../components";
 import Header from "../../components/Header";
 import {
+  ArrowRightIcon,
   ChevronRightIcon,
   HeartFilledIcon,
   HeartIcon,
@@ -52,7 +53,7 @@ const ProductPage = () => {
     [page, images]
   );
 
-  const paginate = (newDirection: number) => {
+  const changeImage = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
 
@@ -85,16 +86,23 @@ const ProductPage = () => {
           </div>
         </div>
         <div className={classes["middle-section"]}>
-          {/* {images.map((uri, index) => (
-            <motion.img
-              src={uri}
-              variants={imageVariant}
-              animate={animation}
-              key={index}
-              custom={activeImageIndex}
-              className={classes["product-image"]}
+          <button
+            className={classes["previous-button"]}
+            onClick={() => changeImage(-1)}
+          >
+            <ChevronRightIcon
+              width={24}
+              height={24}
+              color={colors.deepgrey}
+              style={{ transform: "rotate(180deg" }}
             />
-          ))} */}
+          </button>
+          <button
+            className={classes["next-button"]}
+            onClick={() => changeImage(1)}
+          >
+            <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
+          </button>
           <AnimatePresence initial={false} custom={direction}>
             <motion.img
               key={page}
@@ -115,16 +123,16 @@ const ProductPage = () => {
               onDragEnd={(e, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
                 if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
+                  changeImage(1);
                 } else if (swipe > swipeConfidenceThreshold) {
-                  paginate(-1);
+                  changeImage(-1);
                 }
               }}
             />
           </AnimatePresence>
           <div className={classes["pagination"]}>
             {images.map((_, index) => {
-              const active = index === page;
+              const active = index === page % images.length;
               return (
                 <div
                   className={classes["dot"]}
@@ -180,17 +188,14 @@ const ProductPage = () => {
             </Link>
           </div>
           <div className={classes["footer"]}>
-            <button
-              className={classes["like-button"]}
-              onClick={() => paginate(-1)}
-            >
+            <button className={classes["like-button"]} onClick={() => {}}>
               {false ? (
                 <HeartFilledIcon width={18} height={18} color={colors.error} />
               ) : (
                 <HeartIcon width={18} height={18} color={colors.deepgrey} />
               )}
             </button>
-            <Button label="add to cart" onClick={() => paginate(1)} />
+            <Button label="add to cart" onClick={() => {}} />
           </div>
         </div>
       </div>
