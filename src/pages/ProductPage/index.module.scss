@@ -131,25 +131,49 @@
       display: flex;
       flex-direction: column;
 
+      .size {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid grey;
+        margin-right: 10px;
+        margin-bottom: 10px;
+
+        p {
+          text-align: center;
+          color: black;
+        }
+      }
+
       .sizes {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+      }
+
+      .quantity-section {
+        margin-top: 2rem;
+      }
+
+      .quantity {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
 
         .size {
-          width: 54px;
-          height: 54px;
-          border-radius: 50%;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid grey;
-          margin-right: 10px;
-          margin-bottom: 10px;
+          margin: 0;
+          padding-top: 0.1rem;
+        }
+
+        .count {
+          width: 2.5rem;
 
           p {
             text-align: center;
-            color: black;
           }
         }
       }

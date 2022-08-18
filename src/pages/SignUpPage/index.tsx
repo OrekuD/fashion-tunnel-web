@@ -17,7 +17,7 @@ import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
 import SignUpRequest from "../../network/requests/SignUpRequest";
-import DeviceTypes from "../../types";
+import { DeviceTypes } from "../../types";
 
 const SignUpPage = () => {
   const [email, setEmail] = React.useState("");

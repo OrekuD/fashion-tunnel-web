@@ -7,6 +7,8 @@ import {
   ChevronRightIcon,
   HeartFilledIcon,
   HeartIcon,
+  MinusIcon,
+  PlusIcon,
 } from "../../components/Icons";
 import { cedi, images } from "../../constants";
 import colors from "../../constants/colors";
@@ -15,6 +17,10 @@ import classes from "./index.module.scss";
 import { useAnimation, motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import useKeyPress from "../../hooks/useKeyPress";
+import { useSelectState } from "../../store/selectors";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../../store/slices/cart.slice";
+import Product from "../../models/Product";
 
 export const imageVariant = {
   enter: (direction: number) => {
@@ -45,9 +51,36 @@ const swipePower = (offset: number, velocity: number) => {
 };
 
 const ProductPage = () => {
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const [selectedSize, setSelectedSize] = React.useState<ClothSizes.Status>(-1);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [quantity, setQuantity] = React.useState(1);
+  const { cart, products } = useSelectState();
   const [[page, direction], setPage] = React.useState([0, 0]);
+  const [product, setProduct] = React.useState<Product>();
+
+  const isItemInCart = React.useMemo(() => {
+    const item = cart.products.find(({ id }) => id === params.id);
+    return Boolean(item);
+  }, [cart.products, params.id]);
+
+  React.useEffect(() => {
+    const _product = products.list.find(({ id }) => id === params.id);
+    if (!_product) {
+      // fetch product
+      // set is loading false
+      return;
+    }
+    setProduct(_product);
+    setIsLoading(false);
+  }, [products.list, params.id]);
+
+  // const product = React.useMemo(
+  //   () => cart.products.find(({ id }) => id === params.id),
+  //   [cart, params.id]
+  // );
+
+  const dispatch = useDispatch();
 
   const imageIndex = React.useMemo(
     () => wrap(0, images.length, page),
@@ -76,6 +109,18 @@ const ProductPage = () => {
     isArrowDownPressed,
     isArrowRightPressed,
   ]);
+
+  if (isLoading)
+    return (
+      <>
+        <p>
+          fetching your product ..... loading .... will add loading shimmer
+          animation later :)
+        </p>
+      </>
+    );
+
+  if (!product) return null;
 
   return (
     <div className={classes["container"]}>
@@ -206,6 +251,70 @@ const ProductPage = () => {
                 color={colors.deepgrey}
               />
             </Link>
+          </div>
+          <div
+            className={`${classes["section"]} ${classes["quantity-section"]}`}
+            style={{ paddingBottom: "0.5rem" }}
+          >
+            <div className={classes["section-title"]}>
+              <p className={classes["title"]}>quantity</p>
+              <ChevronRightIcon
+                width={24}
+                height={24}
+                color={colors.deepgrey}
+                style={{
+                  transform: "rotate(90deg)",
+                }}
+              />
+            </div>
+            <div className={classes["quantity"]}>
+              <button
+                className={classes["size"]}
+                onClick={() => {
+                  setQuantity((prevValue) =>
+                    prevValue === 1 ? prevValue : prevValue - 1
+                  );
+                  if (isItemInCart && params.id) {
+                    dispatch(
+                      cartActions.decreaseProductCount({ productId: params.id })
+                    );
+                  }
+                }}
+                style={{}}
+              >
+                <MinusIcon
+                  width={16}
+                  height={16}
+                  color={colors.deepgrey}
+                  strokeWidth={3}
+                />
+              </button>
+              <div className={classes["count"]}>
+                <p>{quantity}</p>
+              </div>
+              <button
+                className={classes["size"]}
+                onClick={() => {
+                  setQuantity((prevValue) => prevValue + 1);
+                  if (isItemInCart && params.id) {
+                    dispatch(
+                      cartActions.increaseProductCount({ productId: params.id })
+                    );
+                  }
+                }}
+                style={{}}
+              >
+                <PlusIcon
+                  width={16}
+                  height={16}
+                  strokeWidth={3}
+                  color={colors.deepgrey}
+                />
+              </button>
+              <p className={classes["sub-total"]}>
+                {`${cedi} ${(quantity * product?.price).toFixed(2)}`}
+              </p>
+            </div>
           </div>
           <div className={classes["footer"]}>
             <button className={classes["like-button"]} onClick={() => {}}>

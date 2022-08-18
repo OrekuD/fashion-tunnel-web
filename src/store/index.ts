@@ -5,11 +5,15 @@ import API from "../constants/api";
 import authentication from "./slices/authentication.slice";
 import user from "./slices/user.slice";
 import ui from "./slices/ui.slice";
+import cart from "./slices/cart.slice";
+import products from "./slices/products.slice";
 
 const reducers = {
   authentication,
   user,
   ui,
+  cart,
+  products,
 };
 
 const rootReducer = combineReducers(reducers);

@@ -1,4 +1,4 @@
-import DeviceTypes from "../../types";
+import { DeviceTypes } from "../../types";
 
 export default interface SignUpRequest {
   email: string;

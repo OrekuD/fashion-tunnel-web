@@ -12,7 +12,7 @@ import AuthenticationResponse from "../../network/responses/AuthenticationRespon
 import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
-import DeviceTypes from "../../types";
+import { DeviceTypes } from "../../types";
 
 const SignInPage = () => {
   const [email, setEmail] = React.useState("");

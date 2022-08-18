@@ -1,5 +1,5 @@
 import User from "../../models/User";
-import DeviceTypes from "../../types";
+import { DeviceTypes } from "../../types";
 
 export default interface AuthenticationResponse {
   accessToken: string;

@@ -11,10 +11,6 @@ import CheckoutPage from "./pages/CheckoutPage";
 const App = () => {
   const { authentication } = useSelectState();
 
-  React.useEffect(() => {
-    console.log({ authentication });
-  }, []);
-
   return (
     <div className={"app-main-container"}>
       <Routes>

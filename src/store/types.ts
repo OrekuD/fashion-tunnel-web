@@ -1,4 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
+import Product from "../models/Product";
+import { CartProduct } from "../types";
 
 export interface AuthenticationState {
   isAuthenticated: boolean;
@@ -9,6 +11,18 @@ export interface AuthenticationState {
 export interface UIState {
   isCartVisible: boolean;
   isProfileVisible: boolean;
+}
+
+export interface CartState {
+  total: number;
+  subtotal: number;
+  discountPercentage: number;
+  discount: number;
+  products: Array<CartProduct>;
+}
+
+export interface ProductsState {
+  list: Array<Product>;
 }
 
 export type CPA<T = any> = PayloadAction<T> & { dispatch: Function };
