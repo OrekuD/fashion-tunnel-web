@@ -8,6 +8,7 @@ export interface AuthenticationState {
 
 export interface UIState {
   isCartVisible: boolean;
+  isProfileVisible: boolean;
 }
 
 export type CPA<T = any> = PayloadAction<T> & { dispatch: Function };

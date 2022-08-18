@@ -1,0 +1,12 @@
+@import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
+
+.container {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+
+  .content {
+    overflow-y: scroll;
+  }
+}

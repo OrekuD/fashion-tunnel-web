@@ -12,14 +12,14 @@ const interceptorErrorFn = (error: any) => {
     if (status === 422) {
       return Promise.reject({
         status,
-        list: [{ msg: "Unprocessable Entity" }]
+        list: [{ msg: "Unprocessable Entity" }],
       });
     }
 
     if (status === 401) {
       return Promise.reject({
         status,
-        list: [{ msg: "Unauthorized" }]
+        list: [{ msg: "Unauthorized" }],
       });
     }
 
@@ -27,39 +27,40 @@ const interceptorErrorFn = (error: any) => {
       if ("data" in error.response && "validation" in error.response.data) {
         return Promise.reject({
           status,
-          list: [{ msg: error.response.data.validation.body.message }]
+          list: [{ msg: error.response.data.validation.body.message }],
         });
       }
 
       return Promise.reject({
         status,
-        list: [{ msg: "Bad Request" }]
+        list: [{ msg: "Bad Request" }],
       });
     }
 
     if (status === 403) {
       return Promise.reject({
         status,
-        list: [{ msg: "Forbidden" }]
+        list: [{ msg: "Forbidden" }],
       });
     }
 
     const response = {
       status: error.response.status,
-      list: error.response.data.errors
+      list: error.response.data.errors,
     };
     return Promise.reject(response);
   } else {
     const response = {
       status: 500,
-      list: [{ msg: "Something went wrong." }]
+      list: [{ msg: "Something went wrong." }],
     };
     return Promise.reject(response);
   }
 };
 
 class API {
-  private readonly BASE_URL: string = `${process.env.REACT_APP_API_URL}/api/v1`;
+  // private readonly BASE_URL: string = `${process.env.REACT_APP_API_URL}/api/v1`;
+  private readonly BASE_URL: string = `${process.env.REACT_APP_API_URL}`;
   private readonly guestAxiosInstance: AxiosInstance;
   private readonly axiosInstance: AxiosInstance;
   private isAuthenticated: boolean = false;

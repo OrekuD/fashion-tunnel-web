@@ -6,10 +6,9 @@ import {
   EyeCancelIcon,
   EyeIcon,
   MailIcon,
-  UserIcon
+  UserIcon,
 } from "../../components/Icons";
 import colors from "../../constants/colors";
-import SignInRequest from "../../network/requests/SignInRequest";
 import isAnyEmpty from "../../utils/isAnyEmpty";
 import classes from "./index.module.scss";
 import API from "../../constants/api";
@@ -18,6 +17,7 @@ import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
 import SignUpRequest from "../../network/requests/SignUpRequest";
+import DeviceTypes from "../../types";
 
 const SignUpPage = () => {
   const [email, setEmail] = React.useState("");
@@ -46,8 +46,9 @@ const SignUpPage = () => {
     const payload: SignUpRequest = {
       email: email.trim().toLowerCase(),
       password: password.trim(),
-      firstName: firstName.trim(),
-      lastName: lastName.trim()
+      firstname: firstName.trim(),
+      lastname: lastName.trim(),
+      deviceType: DeviceTypes.WEB,
     };
     try {
       const response = await API.client.post<
@@ -56,7 +57,7 @@ const SignUpPage = () => {
       >("/user/sign-up", payload);
       dispatch(
         authenticationActions.addAuthState({
-          accessToken: response.data.accessToken
+          accessToken: response.data.accessToken,
         })
       );
       dispatch(userActions.updateUser({ user: response.data.user }));
@@ -64,8 +65,7 @@ const SignUpPage = () => {
       return response.data;
     } catch (error: any) {
       setIsLoading(false);
-      // console.log({ error: error?.list });
-      if ((error?.list[0]?.msg as string).toLowerCase() === "bad request") {
+      if (error?.status === 409) {
         setEmailError("Email address is alreay taken");
       }
     }

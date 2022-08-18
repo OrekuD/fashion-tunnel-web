@@ -12,6 +12,7 @@ import AuthenticationResponse from "../../network/responses/AuthenticationRespon
 import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
+import DeviceTypes from "../../types";
 
 const SignInPage = () => {
   const [email, setEmail] = React.useState("");
@@ -35,9 +36,10 @@ const SignInPage = () => {
     }
     setIsLoading(true);
 
-    const payload = {
+    const payload: SignInRequest = {
       email: email.trim().toLowerCase(),
-      password: password.trim()
+      password: password.trim(),
+      deviceType: DeviceTypes.WEB,
     };
     try {
       const response = await API.client.post<
@@ -46,16 +48,20 @@ const SignInPage = () => {
       >("/user/sign-in", payload);
       dispatch(
         authenticationActions.addAuthState({
-          accessToken: response.data.accessToken
+          accessToken: response.data.accessToken,
         })
       );
       dispatch(userActions.updateUser({ user: response.data.user }));
+      // console.log({
+      //   accessToken: response.data.accessToken,
+      //   user: response.data.user,
+      // });
       setIsLoading(false);
       return response.data;
     } catch (error: any) {
       setIsLoading(false);
-      // console.log({ error: error?.list });
-      if ((error?.list[0]?.msg as string).toLowerCase() === "unauthorized") {
+      console.log({ error: error });
+      if (error?.status === 400) {
         setEmailError("Your credentials are invalid");
       }
     }
@@ -76,7 +82,10 @@ const SignInPage = () => {
       />
       <TextInput
         value={password}
-        onChange={setPassword}
+        onChange={(text) => {
+          setPassword(text);
+          setEmailError("");
+        }}
         placeholder="Password"
         type={showPassword ? "text" : "password"}
         rightIcon={

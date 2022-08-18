@@ -3,6 +3,7 @@ import { UIState } from "../types";
 
 const initialState: UIState = {
   isCartVisible: false,
+  isProfileVisible: false,
 };
 
 const slice = createSlice({
@@ -14,6 +15,12 @@ const slice = createSlice({
       action: PayloadAction<{ isVisible: boolean }>
     ) => {
       state.isCartVisible = action.payload.isVisible;
+    },
+    setProfileModalState: (
+      state,
+      action: PayloadAction<{ isVisible: boolean }>
+    ) => {
+      state.isProfileVisible = action.payload.isVisible;
     },
   },
 });

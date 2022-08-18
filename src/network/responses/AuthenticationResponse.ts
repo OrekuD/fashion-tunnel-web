@@ -1,7 +1,8 @@
 import User from "../../models/User";
+import DeviceTypes from "../../types";
 
 export default interface AuthenticationResponse {
   accessToken: string;
-  expiryAt: number;
+  deviceType: DeviceTypes;
   user: User;
 }

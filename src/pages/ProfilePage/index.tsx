@@ -10,7 +10,7 @@ const ProfilePage = () => {
         {/* <UserCircleIcon width={80} height={80} color={colors.darkgrey} /> */}
         <p
           className={classes["label"]}
-        >{`${user.firstName} ${user.lastName}`}</p>
+        >{`${user.firstname} ${user.lastname}`}</p>
         <p className={classes["label"]}>{user.email}</p>
       </div>
     </div>
