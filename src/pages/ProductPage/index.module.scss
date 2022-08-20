@@ -47,6 +47,7 @@
         font-weight: 500;
         color: $deepgrey;
         margin: 2.5rem 0 0 0;
+        text-transform: capitalize;
       }
 
       .price {
@@ -83,6 +84,7 @@
         align-items: center;
         justify-content: center;
         border: 1px solid $lightdeepgrey;
+        z-index: 100;
       }
 
       .previous-button {
@@ -96,6 +98,7 @@
         align-items: center;
         justify-content: center;
         border: 1px solid $lightdeepgrey;
+        z-index: 100;
       }
 
       .pagination {
@@ -122,7 +125,8 @@
         top: 10%;
         height: 80%;
         width: 75%;
-        object-fit: cover;
+        // object-fit: cover;
+        object-fit: contain;
       }
     }
 

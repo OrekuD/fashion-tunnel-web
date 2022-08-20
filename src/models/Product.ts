@@ -1,3 +1,8 @@
+import ClothSizes from "../namespace/ClothSizes";
+import ProductCategories from "../namespace/ProductCategories";
+import ProductGender from "../namespace/ProductGender";
+import { SizeType } from "../types";
+
 export default interface Product {
   id: string;
   name: string;
@@ -5,5 +10,8 @@ export default interface Product {
   price: number;
   productQuantity: number;
   extraInfo: string;
-  sizeType: "cloth" | "shoe";
+  gender: ProductGender.Status;
+  productCategory: ProductCategories.Status;
+  sizeType: SizeType;
+  images: Array<string>;
 }

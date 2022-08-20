@@ -10,7 +10,7 @@ import {
   MinusIcon,
   PlusIcon,
 } from "../../components/Icons";
-import { cedi, images } from "../../constants";
+import { cedi } from "../../constants";
 import colors from "../../constants/colors";
 import ClothSizes from "../../namespace/ClothSizes";
 import classes from "./index.module.scss";
@@ -21,6 +21,7 @@ import { useSelectState } from "../../store/selectors";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/slices/cart.slice";
 import Product from "../../models/Product";
+import ProductCategories from "../../namespace/ProductCategories";
 
 export const imageVariant = {
   enter: (direction: number) => {
@@ -59,10 +60,10 @@ const ProductPage = () => {
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [product, setProduct] = React.useState<Product>();
 
-  const isItemInCart = React.useMemo(() => {
-    const item = cart.products.find(({ id }) => id === params.id);
-    return Boolean(item);
-  }, [cart.products, params.id]);
+  const isItemInCart = React.useMemo(
+    () => cart.products.findIndex(({ id }) => id === params.id) >= 0,
+    [cart.products, params.id]
+  );
 
   React.useEffect(() => {
     const _product = products.list.find(({ id }) => id === params.id);
@@ -83,8 +84,8 @@ const ProductPage = () => {
   const dispatch = useDispatch();
 
   const imageIndex = React.useMemo(
-    () => wrap(0, images.length, page),
-    [page, images]
+    () => wrap(0, product?.images.length || 0, page),
+    [page, product?.images]
   );
 
   const changeImage = (newDirection: number) => {
@@ -120,16 +121,21 @@ const ProductPage = () => {
       </>
     );
 
-  if (!product) return null;
+  if (!product) return <>product not found</>;
 
   return (
     <div className={classes["container"]}>
       <Header />
       <div className={classes["content"]}>
         <div className={classes["left-section"]}>
-          <p className={classes["category"]}>Home / Category / Jacket</p>
-          <p className={classes["name"]}>Suilven Quilted Jacket</p>
-          <p className={classes["price"]}>{`${cedi}123.99`}</p>
+          <p className={classes["category"]}>
+            Home / Category /{" "}
+            {ProductCategories.State.text(product.productCategory)}
+          </p>
+          <p className={classes["name"]}>{product.name}</p>
+          <p className={classes["price"]}>{`${cedi} ${product.price?.toFixed(
+            2
+          )}`}</p>
           <div className={classes["sections"]}>
             <div className={classes["section"]}>
               <div className={classes["section-title"]}>
@@ -143,10 +149,7 @@ const ProductPage = () => {
                   }}
                 />
               </div>
-              <p className={classes["title"]}>
-                Dolore amet ipsum do cillum anim. Do Lorem id do aute. Duis qui
-                incididunt sunt laboris aute exercitation occaecat consectetur.
-              </p>
+              <p className={classes["title"]}>{product.description}</p>
             </div>
           </div>
         </div>
@@ -171,7 +174,7 @@ const ProductPage = () => {
           <AnimatePresence initial={false} custom={direction}>
             <motion.img
               key={page}
-              src={images[imageIndex]}
+              src={product?.images[imageIndex]}
               custom={direction}
               variants={imageVariant}
               className={classes["product-image"]}
@@ -196,8 +199,8 @@ const ProductPage = () => {
             />
           </AnimatePresence>
           <div className={classes["pagination"]}>
-            {images.map((_, index) => {
-              const active = index === page % images.length;
+            {product?.images.map((_, index) => {
+              const active = index === page % product?.images.length;
               return (
                 <div
                   className={classes["dot"]}
@@ -280,7 +283,9 @@ const ProductPage = () => {
                     );
                   }
                 }}
-                style={{}}
+                style={{
+                  opacity: quantity === 1 ? 0.5 : 1,
+                }}
               >
                 <MinusIcon
                   width={16}
@@ -312,8 +317,9 @@ const ProductPage = () => {
                 />
               </button>
               <p className={classes["sub-total"]}>
-                {`${cedi} ${(quantity * product?.price).toFixed(2)}`}
+                {`${cedi} ${(quantity * product?.price)?.toFixed(2)}`}
               </p>
+              <p className={classes["sub-total"]}>{product.productQuantity}</p>
             </div>
           </div>
           <div className={classes["footer"]}>
@@ -324,7 +330,28 @@ const ProductPage = () => {
                 <HeartIcon width={18} height={18} color={colors.deepgrey} />
               )}
             </button>
-            <Button label="add to cart" onClick={() => {}} />
+            <Button
+              label={isItemInCart ? "remove to cart" : "add to cart"}
+              onClick={() => {
+                console.log({ isItemInCart });
+                if (isItemInCart) {
+                  dispatch(
+                    cartActions.removeProduct({ productId: product.id })
+                  );
+                } else {
+                  dispatch(
+                    cartActions.addProduct({
+                      product: {
+                        ...product,
+                        count: quantity,
+                        total: product.price * quantity,
+                        size: selectedSize,
+                      },
+                    })
+                  );
+                }
+              }}
+            />
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ export const calculateCart = (
   if (products.length === 0) return { total: 0, discount: 0, subtotal: 0 };
 
   const subtotal = products.reduce(
-    (sum, item) => sum + item.count * item.count,
+    (sum, item) => sum + item.count * item.price,
     0
   );
   const discount = subtotal * discountPercentage;

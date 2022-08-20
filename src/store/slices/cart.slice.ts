@@ -18,6 +18,29 @@ const slice = createSlice({
   reducers: {
     addProduct: (state, action: PayloadAction<{ product: CartProduct }>) => {
       state.products.unshift(action.payload.product);
+      const { discount, subtotal, total } = calculateCart(
+        state.products,
+        state.discountPercentage
+      );
+      state.discount = discount;
+      state.subtotal = subtotal;
+      state.total = total;
+    },
+    removeProduct: (state, action: PayloadAction<{ productId: string }>) => {
+      const productIndex = state.products.findIndex(
+        ({ id }) => id === action.payload.productId
+      );
+      if (productIndex < 0) {
+        return;
+      }
+      state.products.splice(productIndex, 1);
+      const { discount, subtotal, total } = calculateCart(
+        state.products,
+        state.discountPercentage
+      );
+      state.discount = discount;
+      state.subtotal = subtotal;
+      state.total = total;
     },
     increaseProductCount: (
       state,
@@ -36,10 +59,12 @@ const slice = createSlice({
       const updatedCount = product.count + 1;
       product.count = updatedCount;
       product.total = updatedCount * product.price;
+      state.products.splice(productIndex, 1, product);
       const { discount, subtotal, total } = calculateCart(
         state.products,
         state.discountPercentage
       );
+      console.log({ subtotal });
       state.discount = discount;
       state.subtotal = subtotal;
       state.total = total;
@@ -56,9 +81,7 @@ const slice = createSlice({
       }
       const product = state.products[productIndex];
       if (product.count === 1) {
-        state.products = state.products.filter(
-          ({ id }) => id !== action.payload.productId
-        );
+        state.products.splice(productIndex, 1);
       } else {
         const updatedCount = product.count - 1;
         product.count = updatedCount;

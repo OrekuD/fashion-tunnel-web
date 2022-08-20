@@ -15,20 +15,25 @@ interface Props {}
 
 const Cart = (props: Props) => {
   const dispatch = useDispatch();
-  const { ui } = useSelectState();
+  const { ui, cart } = useSelectState();
   const { pathname } = useLocation();
 
   React.useEffect(() => {
     dispatch(uiActions.setCartModalState({ isVisible: false }));
   }, [pathname]);
 
-  const summary = [
-    { label: "Subtotal", value: 134.99 },
-    { label: "Shipping", value: 10.99 },
-    { label: "Tax", value: 2.99 },
-  ];
+  const summary = React.useMemo(
+    () => [
+      { label: "Subtotal", value: cart.subtotal },
+      { label: "Shipping", value: 10.99 },
+      { label: "Tax", value: 2.99 },
+    ],
+    [cart.subtotal]
+  );
 
-  const total = React.useMemo(() => 149, []);
+  React.useEffect(() => {
+    console.log({ ps: cart.subtotal });
+  }, []);
 
   return (
     <AnimatePresence initial={false}>
@@ -54,11 +59,9 @@ const Cart = (props: Props) => {
             <div className={classes["left-content"]}>
               <p className={classes["title"]}>Your cart</p>
               <div className={classes["list"]}>
-                {Array(20)
-                  .fill("9")
-                  .map((_, index) => (
-                    <CartItem key={index} />
-                  ))}
+                {cart.products.map((product, index) => (
+                  <CartItem key={index} product={product} />
+                ))}
               </div>
             </div>
             <div className={classes["right-content"]}>
@@ -81,7 +84,7 @@ const Cart = (props: Props) => {
               ))}
               <div className={`${classes["item"]} ${classes["total"]}`}>
                 <p className={classes["key"]}>Total</p>
-                <p className={classes["value"]}>{`${cedi}${total.toFixed(
+                <p className={classes["value"]}>{`${cedi}${cart.total.toFixed(
                   2
                 )}`}</p>
               </div>

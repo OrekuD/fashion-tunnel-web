@@ -1,21 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { cedi, images } from "../../constants";
+import Product from "../../models/Product";
 import { wrapText } from "../../utils/wrapText";
 import classes from "./index.module.scss";
 
-const ProductCard = () => {
+interface Props {
+  product: Product;
+}
+
+const ProductCard = (props: Props) => {
   return (
-    <Link to={`/product/4`} className={classes["container"]}>
-      <img src={images[2]} alt="" className={classes["product-image"]} />
-      <p className={classes["name"]}>Off-White</p>
+    <Link to={`/product/${props.product.id}`} className={classes["container"]}>
+      <img
+        src={props.product.images[0]}
+        alt={props.product.name}
+        className={classes["product-image"]}
+      />
+      <p className={classes["name"]}>{props.product.name}</p>
       <p className={classes["description"]}>
-        {wrapText(
-          "Dolor proident commodo nisi pariatur non ad minim mollit eu id. Et sit nostrud qui tempor enim Lorem. Quis culpa pariatur culpa magna cupidatat quis fugiat. Exercitation eu ea elit occaecat incididunt nisi aliqua aliquip est eu pariatur. Nisi excepteur magna mollit dolor id do. Nisi in ut amet et excepteur amet commodo anim id. Eiusmod enim sit et do pariatur ipsum non velit.",
-          70
-        )}
+        {wrapText(props.product.description, 70)}
       </p>
-      <p className={classes["price"]}>{`${cedi}123.99`}</p>
+      <p className={classes["price"]}>{`${cedi} ${props.product.price.toFixed(
+        2
+      )}`}</p>
     </Link>
   );
 };
