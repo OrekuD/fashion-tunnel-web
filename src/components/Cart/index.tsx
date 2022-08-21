@@ -9,7 +9,7 @@ import { CancelIcon } from "../Icons";
 import colors from "../../constants/colors";
 import Button from "../Button";
 import CartItem from "../CartItem";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {}
 
@@ -17,6 +17,7 @@ const Cart = (props: Props) => {
   const dispatch = useDispatch();
   const { ui, cart } = useSelectState();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(uiActions.setCartModalState({ isVisible: false }));
@@ -86,7 +87,9 @@ const Cart = (props: Props) => {
               </div>
               <Button
                 label="checkout"
-                onClick={() => {}}
+                onClick={() => {
+                  navigate("/checkout");
+                }}
                 style={{ maxWidth: "100%" }}
               />
             </div>

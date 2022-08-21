@@ -13,7 +13,7 @@ import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
 import { DeviceTypes } from "../../types";
-import authentictionAsyncActions from "../../store/actions/authentication.action";
+import authenticationAsyncActions from "../../store/actions/authentication.action";
 import { useSelectState } from "../../store/selectors";
 import RequestManager from "../../store/request-manager";
 
@@ -34,14 +34,14 @@ const SignInPage = () => {
     }
     const RM = new RequestManager(request, dispatch);
 
-    if (RM.isFulfilled(authentictionAsyncActions.signin.typePrefix)) {
-      RM.consume(authentictionAsyncActions.signin.typePrefix);
+    if (RM.isFulfilled(authenticationAsyncActions.signin.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signin.typePrefix);
       setIsLoading(false);
       return;
     }
 
-    if (RM.isRejected(authentictionAsyncActions.signin.typePrefix)) {
-      RM.consume(authentictionAsyncActions.signin.typePrefix);
+    if (RM.isRejected(authenticationAsyncActions.signin.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signin.typePrefix);
       setIsLoading(false);
       return;
     }
@@ -66,7 +66,7 @@ const SignInPage = () => {
       deviceType: DeviceTypes.WEB,
     };
     // console.log("--startt");
-    dispatch(authentictionAsyncActions.signin(payload));
+    dispatch(authenticationAsyncActions.signin(payload));
   };
 
   return (

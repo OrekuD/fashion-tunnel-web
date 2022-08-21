@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthenticationState, CPA } from "../types";
 import API from "../../constants/api";
-import authentictionAsyncActions from "../actions/authentication.action";
+import authenticationAsyncActions from "../actions/authentication.action";
 import AuthenticationResponse from "../../network/responses/AuthenticationResponse";
 import postRequest from "../postRequest";
 import postErrorRequest from "../postErrorRequest";
@@ -18,7 +18,7 @@ const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [authentictionAsyncActions.signin.fulfilled.type]: (
+    [authenticationAsyncActions.signin.fulfilled.type]: (
       state,
       action: CPA<AuthenticationResponse>
     ) => {
@@ -28,7 +28,7 @@ const slice = createSlice({
       localStorage.setItem("accessToken", action.payload.accessToken);
       postRequest(action);
     },
-    [authentictionAsyncActions.signup.fulfilled.type]: (
+    [authenticationAsyncActions.signup.fulfilled.type]: (
       state,
       action: CPA<AuthenticationResponse>
     ) => {
@@ -38,7 +38,7 @@ const slice = createSlice({
       localStorage.setItem("accessToken", action.payload.accessToken);
       postRequest(action);
     },
-    [authentictionAsyncActions.signin.rejected.type]: (
+    [authenticationAsyncActions.signin.rejected.type]: (
       state,
       action: CPA<ErrorResponse>
     ) => {
@@ -46,7 +46,7 @@ const slice = createSlice({
       state.isAuthenticated = false;
       postErrorRequest(state, action, initialState);
     },
-    [authentictionAsyncActions.signup.rejected.type]: (
+    [authenticationAsyncActions.signup.rejected.type]: (
       state,
       action: CPA<ErrorResponse>
     ) => {

@@ -64,6 +64,7 @@ const ProductPage = () => {
   const { cart, products, request, favourites } = useSelectState();
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [product, setProduct] = React.useState<Product>();
+  const dispatch = useDispatch();
 
   const isItemInCart = React.useMemo(
     () => cart.products.findIndex(({ id }) => id === params.id) >= 0,
@@ -100,7 +101,6 @@ const ProductPage = () => {
     if (!params.id) return;
     const _product = products.list.find(({ id }) => id === params.id);
     if (!_product) {
-      console.log("fetching");
       dispatch(productsAsyncActions.getProduct(params.id));
       return;
     }
@@ -112,8 +112,6 @@ const ProductPage = () => {
   //   () => cart.products.find(({ id }) => id === params.id),
   //   [cart, params.id]
   // );
-
-  const dispatch = useDispatch();
 
   const imageIndex = React.useMemo(
     () => wrap(0, product?.images.length || 0, page),
@@ -372,7 +370,6 @@ const ProductPage = () => {
               <Button
                 label={isItemInCart ? "remove to cart" : "add to cart"}
                 onClick={() => {
-                  console.log({ isItemInCart });
                   if (isItemInCart) {
                     dispatch(
                       cartActions.removeProduct({ productId: product.id })

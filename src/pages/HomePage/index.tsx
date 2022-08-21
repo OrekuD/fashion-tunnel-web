@@ -10,6 +10,7 @@ import classes from "./index.module.scss";
 
 const HomePage = () => {
   const { user, ui, products, request } = useSelectState();
+
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
     dispatch(productsAsyncActions.index());
