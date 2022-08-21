@@ -18,6 +18,9 @@ import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
 import SignUpRequest from "../../network/requests/SignUpRequest";
 import { DeviceTypes } from "../../types";
+import { useSelectState } from "../../store/selectors";
+import RequestManager from "../../store/request-manager";
+import authentictionAsyncActions from "../../store/actions/authentication.action";
 
 const SignUpPage = () => {
   const [email, setEmail] = React.useState("");
@@ -27,8 +30,30 @@ const SignUpPage = () => {
   const [lastName, setLastName] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const { request } = useSelectState();
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
+
+  const [updatedAt] = React.useState(request.updatedAt);
+
+  React.useEffect(() => {
+    if (updatedAt === request.updatedAt) {
+      return;
+    }
+    const RM = new RequestManager(request, dispatch);
+
+    if (RM.isFulfilled(authentictionAsyncActions.signup.typePrefix)) {
+      RM.consume(authentictionAsyncActions.signup.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+
+    if (RM.isRejected(authentictionAsyncActions.signup.typePrefix)) {
+      RM.consume(authentictionAsyncActions.signup.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+  }, [updatedAt, request.updatedAt]);
 
   const canProceed = React.useMemo(() => {
     if (emailError.trim().length > 0) {
@@ -50,25 +75,8 @@ const SignUpPage = () => {
       lastname: lastName.trim(),
       deviceType: DeviceTypes.WEB,
     };
-    try {
-      const response = await API.client.post<
-        SignUpRequest,
-        AxiosResponse<AuthenticationResponse>
-      >("/user/sign-up", payload);
-      dispatch(
-        authenticationActions.addAuthState({
-          accessToken: response.data.accessToken,
-        })
-      );
-      dispatch(userActions.updateUser({ user: response.data.user }));
-      setIsLoading(false);
-      return response.data;
-    } catch (error: any) {
-      setIsLoading(false);
-      if (error?.status === 409) {
-        setEmailError("Email address is alreay taken");
-      }
-    }
+
+    dispatch(authentictionAsyncActions.signup(payload));
   };
 
   return (

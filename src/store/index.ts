@@ -7,6 +7,8 @@ import user from "./slices/user.slice";
 import ui from "./slices/ui.slice";
 import cart from "./slices/cart.slice";
 import products from "./slices/products.slice";
+import request from "./slices/request.slice";
+import favourites from "./slices/favourites.slice";
 
 const reducers = {
   authentication,
@@ -14,6 +16,8 @@ const reducers = {
   ui,
   cart,
   products,
+  request,
+  favourites,
 };
 
 const rootReducer = combineReducers(reducers);
@@ -74,8 +78,9 @@ const initializeStore = async () => {
 
   store.subscribe(async () => {
     const state = store.getState();
+    const { request, ...data } = state;
 
-    localStorage.setItem("state", JSON.stringify(state));
+    localStorage.setItem("state", JSON.stringify(data));
   });
 
   return store;

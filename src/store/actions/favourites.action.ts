@@ -4,11 +4,11 @@ import API from "../../constants/api";
 import Product from "../../models/Product";
 import { requestActions } from "../slices/request.slice";
 
-const index = createAsyncThunk("products/index", async (_, thunkApi) => {
+const index = createAsyncThunk("favourites/index", async (_, thunkApi) => {
   thunkApi.dispatch(requestActions.started(index.typePrefix));
   try {
     const response = await API.client.get<any, AxiosResponse<Array<Product>>>(
-      "/products"
+      "/favourites"
     );
 
     // console.log({ d: response.data[0] });
@@ -21,29 +21,34 @@ const index = createAsyncThunk("products/index", async (_, thunkApi) => {
   }
 });
 
-const getProduct = createAsyncThunk(
-  "products/get",
+const updateFavourites = createAsyncThunk(
+  "favourites/update",
   async (productId: string, thunkApi) => {
-    thunkApi.dispatch(requestActions.started(getProduct.typePrefix));
+    thunkApi.dispatch(requestActions.started(updateFavourites.typePrefix));
     try {
-      const response = await API.client.get<any, AxiosResponse<Product>>(
-        `/products/${productId}`
+      const response = await API.client.post<any, AxiosResponse<Product>>(
+        "/favourites",
+        { productId }
       );
-      // console.log({response: response.data})
-      thunkApi.dispatch(requestActions.beforeFulfilled(getProduct.typePrefix));
+      console.log({ response: response.data });
+      thunkApi.dispatch(
+        requestActions.beforeFulfilled(updateFavourites.typePrefix)
+      );
 
       return response.data;
     } catch (error) {
       console.log({ error: error });
-      thunkApi.dispatch(requestActions.beforeRejected(getProduct.typePrefix));
+      thunkApi.dispatch(
+        requestActions.beforeRejected(updateFavourites.typePrefix)
+      );
       return thunkApi.rejectWithValue({ error });
     }
   }
 );
 
-const productsAsyncActions = {
+const favouritesAsyncActions = {
   index,
-  getProduct,
+  updateFavourites,
 };
 
-export default productsAsyncActions;
+export default favouritesAsyncActions;

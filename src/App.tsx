@@ -7,9 +7,43 @@ import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import { useDispatch } from "react-redux";
+import { AxiosResponse } from "axios";
+import API from "./constants/api";
+import authenticationAsyncActions from "./store/actions/authentication.action";
 
 const App = () => {
   const { authentication } = useSelectState();
+  const dispatch = useDispatch();
+
+  // React.useEffect(() => {
+  //   // console.log({auth: authenticationState.accessToken});
+  //   const launch = async () => {
+  //     API.client.interceptors.response.use(
+  //       (response: AxiosResponse<any>): AxiosResponse<any> => response,
+  //       (error: any) => {
+  //         if (error.response) {
+  //           if (error.response.status === 401) {
+  //             dispatch(authenticationAsyncActions.signout());
+  //           }
+  //         } else if (error.status) {
+  //           if (error.status === 401) {
+  //             dispatch(authenticationAsyncActions.signout());
+  //           }
+  //         }
+
+  //         return Promise.reject(error);
+  //       }
+  //     );
+
+  //     const accessToken = localStorage.getItem("accessToken");
+  //     if (accessToken) {
+  //       API.addAccessToken(accessToken);
+  //     }
+  //   };
+
+  //   launch().then(() => {});
+  // }, []);
 
   return (
     <div className={"app-main-container"}>

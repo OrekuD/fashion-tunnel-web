@@ -22,6 +22,11 @@ import { useDispatch } from "react-redux";
 import { cartActions } from "../../store/slices/cart.slice";
 import Product from "../../models/Product";
 import ProductCategories from "../../namespace/ProductCategories";
+import productsAsyncActions from "../../store/actions/products.action";
+import RequestManager from "../../store/request-manager";
+import { productActions } from "../../store/slices/products.slice";
+import { favouritesActions } from "../../store/slices/favourites.slice";
+import favouritesAsyncActions from "../../store/actions/favourites.action";
 
 export const imageVariant = {
   enter: (direction: number) => {
@@ -56,7 +61,7 @@ const ProductPage = () => {
   const [selectedSize, setSelectedSize] = React.useState<ClothSizes.Status>(-1);
   const [isLoading, setIsLoading] = React.useState(true);
   const [quantity, setQuantity] = React.useState(1);
-  const { cart, products } = useSelectState();
+  const { cart, products, request, favourites } = useSelectState();
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [product, setProduct] = React.useState<Product>();
 
@@ -65,11 +70,38 @@ const ProductPage = () => {
     [cart.products, params.id]
   );
 
+  const isItemInFavourites = React.useMemo(
+    () => favourites.list.findIndex(({ id }) => id === params.id) >= 0,
+    [favourites.list, params.id]
+  );
+
+  const [updatedAt] = React.useState(request.updatedAt);
+
   React.useEffect(() => {
+    if (updatedAt === request.updatedAt) {
+      return;
+    }
+    const RM = new RequestManager(request, dispatch);
+
+    if (RM.isFulfilled(productsAsyncActions.getProduct.typePrefix)) {
+      RM.consume(productsAsyncActions.getProduct.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+
+    if (RM.isRejected(productsAsyncActions.getProduct.typePrefix)) {
+      RM.consume(productsAsyncActions.getProduct.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+  }, [updatedAt, request.updatedAt]);
+
+  React.useEffect(() => {
+    if (!params.id) return;
     const _product = products.list.find(({ id }) => id === params.id);
     if (!_product) {
-      // fetch product
-      // set is loading false
+      console.log("fetching");
+      dispatch(productsAsyncActions.getProduct(params.id));
       return;
     }
     setProduct(_product);
@@ -323,35 +355,43 @@ const ProductPage = () => {
             </div>
           </div>
           <div className={classes["footer"]}>
-            <button className={classes["like-button"]} onClick={() => {}}>
-              {false ? (
+            <button
+              className={classes["like-button"]}
+              onClick={() => {
+                dispatch(favouritesActions.updateFavourites({ product }));
+                dispatch(favouritesAsyncActions.updateFavourites(product.id));
+              }}
+            >
+              {isItemInFavourites ? (
                 <HeartFilledIcon width={18} height={18} color={colors.error} />
               ) : (
                 <HeartIcon width={18} height={18} color={colors.deepgrey} />
               )}
             </button>
-            <Button
-              label={isItemInCart ? "remove to cart" : "add to cart"}
-              onClick={() => {
-                console.log({ isItemInCart });
-                if (isItemInCart) {
-                  dispatch(
-                    cartActions.removeProduct({ productId: product.id })
-                  );
-                } else {
-                  dispatch(
-                    cartActions.addProduct({
-                      product: {
-                        ...product,
-                        count: quantity,
-                        total: product.price * quantity,
-                        size: selectedSize,
-                      },
-                    })
-                  );
-                }
-              }}
-            />
+            <div className={classes["button"]}>
+              <Button
+                label={isItemInCart ? "remove to cart" : "add to cart"}
+                onClick={() => {
+                  console.log({ isItemInCart });
+                  if (isItemInCart) {
+                    dispatch(
+                      cartActions.removeProduct({ productId: product.id })
+                    );
+                  } else {
+                    dispatch(
+                      cartActions.addProduct({
+                        product: {
+                          ...product,
+                          count: quantity,
+                          total: product.price * quantity,
+                          size: selectedSize,
+                        },
+                      })
+                    );
+                  }
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

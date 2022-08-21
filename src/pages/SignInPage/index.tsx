@@ -13,6 +13,9 @@ import { AxiosResponse } from "axios";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import { userActions } from "../../store/slices/user.slice";
 import { DeviceTypes } from "../../types";
+import authentictionAsyncActions from "../../store/actions/authentication.action";
+import { useSelectState } from "../../store/selectors";
+import RequestManager from "../../store/request-manager";
 
 const SignInPage = () => {
   const [email, setEmail] = React.useState("");
@@ -20,8 +23,29 @@ const SignInPage = () => {
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch<any>();
+  const { request } = useSelectState();
+  const [updatedAt] = React.useState(request.updatedAt);
+
+  React.useEffect(() => {
+    if (updatedAt === request.updatedAt) {
+      return;
+    }
+    const RM = new RequestManager(request, dispatch);
+
+    if (RM.isFulfilled(authentictionAsyncActions.signin.typePrefix)) {
+      RM.consume(authentictionAsyncActions.signin.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+
+    if (RM.isRejected(authentictionAsyncActions.signin.typePrefix)) {
+      RM.consume(authentictionAsyncActions.signin.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+  }, [updatedAt, request.updatedAt]);
 
   const canProceed = React.useMemo(() => {
     if (emailError.trim().length > 0) {
@@ -41,30 +65,8 @@ const SignInPage = () => {
       password: password.trim(),
       deviceType: DeviceTypes.WEB,
     };
-    try {
-      const response = await API.client.post<
-        SignInRequest,
-        AxiosResponse<AuthenticationResponse>
-      >("/user/sign-in", payload);
-      dispatch(
-        authenticationActions.addAuthState({
-          accessToken: response.data.accessToken,
-        })
-      );
-      dispatch(userActions.updateUser({ user: response.data.user }));
-      // console.log({
-      //   accessToken: response.data.accessToken,
-      //   user: response.data.user,
-      // });
-      setIsLoading(false);
-      return response.data;
-    } catch (error: any) {
-      setIsLoading(false);
-      console.log({ error: error });
-      if (error?.status === 400) {
-        setEmailError("Your credentials are invalid");
-      }
-    }
+    // console.log("--startt");
+    dispatch(authentictionAsyncActions.signin(payload));
   };
 
   return (

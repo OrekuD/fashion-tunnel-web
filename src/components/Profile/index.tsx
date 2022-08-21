@@ -11,17 +11,16 @@ import Button from "../Button";
 import CartItem from "../CartItem";
 import { useLocation } from "react-router-dom";
 import { authenticationActions } from "../../store/slices/authentication.slice";
+import authentictionAsyncActions from "../../store/actions/authentication.action";
+import ProductCard from "../ProductCard";
 
 interface Props {}
 
 const Profile = (props: Props) => {
   const dispatch = useDispatch();
-  const { ui, user, authentication } = useSelectState();
+  const { ui, user, authentication, favourites } = useSelectState();
   const { pathname } = useLocation();
   const [activeTab, setActiveTab] = React.useState(0);
-  React.useEffect(() => {
-    console.log({ user, authentication });
-  }, [user]);
 
   React.useEffect(() => {
     dispatch(uiActions.setProfileModalState({ isVisible: false }));
@@ -60,6 +59,11 @@ const Profile = (props: Props) => {
       component: (
         <>
           <p>favorite </p>
+          <div className={classes["list"]}>
+            {favourites.list.map((product) => (
+              <ProductCard product={product} key={product.id} />
+            ))}
+          </div>
         </>
       ),
     },
@@ -122,7 +126,7 @@ const Profile = (props: Props) => {
                 })}
                 <button
                   onClick={() => {
-                    dispatch(authenticationActions.signOut());
+                    dispatch(authentictionAsyncActions.signout());
                   }}
                   className={`${classes["menu-item"]} ${classes["last"]}`}
                 >

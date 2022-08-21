@@ -31,10 +31,6 @@ const Cart = (props: Props) => {
     [cart.subtotal]
   );
 
-  React.useEffect(() => {
-    console.log({ ps: cart.subtotal });
-  }, []);
-
   return (
     <AnimatePresence initial={false}>
       {ui.isCartVisible ? (

@@ -25,4 +25,8 @@ export interface ProductsState {
   list: Array<Product>;
 }
 
+export interface FavouritesState {
+  list: Array<Product>;
+}
+
 export type CPA<T = any> = PayloadAction<T> & { dispatch: Function };
