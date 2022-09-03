@@ -23,24 +23,10 @@ const interceptorErrorFn = (error: any) => {
       });
     }
 
-    if (status === 400) {
-      if ("data" in error.response && "validation" in error.response.data) {
-        return Promise.reject({
-          status,
-          list: [{ msg: error.response.data.validation.body.message }],
-        });
-      }
-
+    if (status === 409) {
       return Promise.reject({
         status,
-        list: [{ msg: "Bad Request" }],
-      });
-    }
-
-    if (status === 403) {
-      return Promise.reject({
-        status,
-        list: [{ msg: "Forbidden" }],
+        list: [{ msg: "Resource already taken" }],
       });
     }
 

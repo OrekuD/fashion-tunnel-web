@@ -6,6 +6,7 @@ import AuthenticationResponse from "../../network/responses/AuthenticationRespon
 import postRequest from "../postRequest";
 import postErrorRequest from "../postErrorRequest";
 import ErrorResponse from "../../network/responses/ErrorResponse";
+import OkResponse from "../../network/responses/OkResponse";
 
 const initialState: AuthenticationState = {
   isAuthenticated: false,
@@ -47,6 +48,22 @@ const slice = createSlice({
       postErrorRequest(state, action, initialState);
     },
     [authenticationAsyncActions.signup.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      state.accessToken = "";
+      state.isAuthenticated = false;
+      postErrorRequest(state, action, initialState);
+    },
+    [authenticationAsyncActions.signout.fulfilled.type]: (
+      state,
+      action: CPA<OkResponse>
+    ) => {
+      state.accessToken = "";
+      state.isAuthenticated = false;
+      postRequest(action);
+    },
+    [authenticationAsyncActions.signout.rejected.type]: (
       state,
       action: CPA<ErrorResponse>
     ) => {

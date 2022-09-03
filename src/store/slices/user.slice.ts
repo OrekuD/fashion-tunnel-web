@@ -1,28 +1,85 @@
-import {
-  createSlice,
-  PayloadAction as PA,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import User from "../../models/User";
+import AuthenticationResponse from "../../network/responses/AuthenticationResponse";
+import ErrorResponse from "../../network/responses/ErrorResponse";
+import OkResponse from "../../network/responses/OkResponse";
+import authenticationAsyncActions from "../actions/authentication.action";
+import userAsyncActions from "../actions/user.action";
+import postErrorRequest from "../postErrorRequest";
+import postRequest from "../postRequest";
+import { CPA } from "../types";
 
 const initialState: User = {
-  id: "",
   email: "",
   firstname: "",
   lastname: "",
+  activeAddressId: "",
 };
 
 const slice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    updateUser: (state, action: PayloadAction<{ user: User }>) => {
-      state.id = action.payload.user.id;
+  reducers: {},
+  extraReducers: {
+    [userAsyncActions.updateDetails.fulfilled.type]: (
+      state,
+      action: CPA<User>
+    ) => {
+      state.email = action.payload.email;
+      state.firstname = action.payload.firstname;
+      state.lastname = action.payload.lastname;
+      postRequest(action);
+    },
+    [userAsyncActions.updateDetails.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      postErrorRequest(state, action, initialState);
+    },
+    [userAsyncActions.changePassword.fulfilled.type]: (
+      _,
+      action: CPA<OkResponse>
+    ) => {
+      postRequest(action);
+    },
+    [userAsyncActions.changePassword.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      postErrorRequest(state, action, initialState);
+    },
+    [authenticationAsyncActions.signin.fulfilled.type]: (
+      state,
+      action: CPA<AuthenticationResponse>
+    ) => {
       state.email = action.payload.user.email;
       state.firstname = action.payload.user.firstname;
       state.lastname = action.payload.user.lastname;
+      postRequest(action);
     },
-    signOut: () => initialState,
+    [authenticationAsyncActions.signin.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      postErrorRequest(state, action, initialState);
+    },
+    [authenticationAsyncActions.signup.fulfilled.type]: (
+      state,
+      action: CPA<AuthenticationResponse>
+    ) => {
+      state.email = action.payload.user.email;
+      state.firstname = action.payload.user.firstname;
+      state.lastname = action.payload.user.lastname;
+      postRequest(action);
+    },
+    [authenticationAsyncActions.signup.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      postErrorRequest(state, action, initialState);
+    },
+    [authenticationAsyncActions.signout.fulfilled.type]: () => initialState,
+    [authenticationAsyncActions.signout.rejected.type]: () => initialState,
   },
 });
 

@@ -4,6 +4,7 @@ import Product from "../../models/Product";
 import postRequest from "../postRequest";
 import postErrorRequest from "../postErrorRequest";
 import favouritesAsyncActions from "../actions/favourites.action";
+import authenticationAsyncActions from "../actions/authentication.action";
 
 const initialState: FavouritesState = {
   list: [],
@@ -49,6 +50,8 @@ const slice = createSlice({
     ) => {
       postErrorRequest(action, action, initialState);
     },
+    [authenticationAsyncActions.signout.fulfilled.type]: () => initialState,
+    [authenticationAsyncActions.signout.rejected.type]: () => initialState,
   },
 });
 

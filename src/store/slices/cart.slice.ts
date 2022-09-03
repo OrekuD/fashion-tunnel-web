@@ -3,6 +3,8 @@ import { CartProduct } from "./../../types";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { CartState } from "../types";
+import ordersAsyncActions from "../actions/orders.action";
+import authenticationAsyncActions from "../actions/authentication.action";
 
 const initialState: CartState = {
   discount: 0,
@@ -97,6 +99,11 @@ const slice = createSlice({
       state.total = total;
     },
     clearCart: () => initialState,
+  },
+  extraReducers: {
+    [ordersAsyncActions.createOrder.fulfilled.type]: () => initialState,
+    [authenticationAsyncActions.signout.fulfilled.type]: () => initialState,
+    [authenticationAsyncActions.signout.rejected.type]: () => initialState,
   },
 });
 

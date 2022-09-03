@@ -65,7 +65,6 @@ const SignInPage = () => {
       password: password.trim(),
       deviceType: DeviceTypes.WEB,
     };
-    // console.log("--startt");
     dispatch(authenticationAsyncActions.signin(payload));
   };
 

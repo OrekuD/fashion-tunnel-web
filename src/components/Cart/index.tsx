@@ -23,14 +23,24 @@ const Cart = (props: Props) => {
     dispatch(uiActions.setCartModalState({ isVisible: false }));
   }, [pathname]);
 
-  const summary = React.useMemo(
-    () => [
-      { label: "Subtotal", value: cart.subtotal },
-      { label: "Shipping", value: 10.99 },
-      { label: "Tax", value: 2.99 },
-    ],
-    [cart.subtotal]
-  );
+  const summary = React.useMemo(() => {
+    const data = [
+      { label: "Subtotal", value: `${cedi} ${cart.subtotal.toFixed(2)}` },
+    ];
+
+    if (cart.discountPercentage > 0) {
+      data.push({
+        label: "Discount %",
+        value: `${cart.discountPercentage * 100} %`,
+      });
+      data.push({
+        label: "Discount",
+        value: `${cedi} ${cart.discount.toFixed(2)}`,
+      });
+    }
+
+    return data;
+  }, [cart.discount, cart.discountPercentage, cart.subtotal, cart.total]);
 
   return (
     <AnimatePresence initial={false}>
@@ -55,11 +65,17 @@ const Cart = (props: Props) => {
           >
             <div className={classes["left-content"]}>
               <p className={classes["title"]}>Your cart</p>
-              <div className={classes["list"]}>
-                {cart.products.map((product, index) => (
-                  <CartItem key={index} product={product} />
-                ))}
-              </div>
+              {cart.products.length === 0 ? (
+                <p className={classes["no-items"]}>
+                  You currently have no items in your cart.
+                </p>
+              ) : (
+                <div className={classes["list"]}>
+                  {cart.products.map((product, index) => (
+                    <CartItem key={index} product={product} />
+                  ))}
+                </div>
+              )}
             </div>
             <div className={classes["right-content"]}>
               <button
@@ -74,12 +90,11 @@ const Cart = (props: Props) => {
               {summary.map(({ label, value }, index) => (
                 <div className={classes["item"]} key={index}>
                   <p className={classes["key"]}>{label}</p>
-                  <p className={classes["value"]}>{`${cedi}${value.toFixed(
-                    2
-                  )}`}</p>
+                  <p className={classes["value"]}>{value}</p>
                 </div>
               ))}
-              <div className={`${classes["item"]} ${classes["total"]}`}>
+
+              <div className={`${classes["item"]}`}>
                 <p className={classes["key"]}>Total</p>
                 <p className={classes["value"]}>{`${cedi}${cart.total.toFixed(
                   2
@@ -90,7 +105,7 @@ const Cart = (props: Props) => {
                 onClick={() => {
                   navigate("/checkout");
                 }}
-                style={{ maxWidth: "100%" }}
+                style={{ maxWidth: "100%", marginTop: 12 }}
               />
             </div>
           </motion.div>

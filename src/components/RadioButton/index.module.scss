@@ -1,0 +1,18 @@
+@import "../../scss/colors.scss";
+
+.container {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid $grey;
+
+  div {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: $deepgrey;
+  }
+}

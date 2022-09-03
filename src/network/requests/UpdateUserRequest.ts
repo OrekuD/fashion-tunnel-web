@@ -1,6 +1,6 @@
-export default interface User {
-  email: string;
+export default interface UpdateUserRequest {
   firstname: string;
   lastname: string;
+  email: string;
   activeAddressId: string;
 }

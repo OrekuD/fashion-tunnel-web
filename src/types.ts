@@ -1,6 +1,8 @@
 import moment from "moment";
 import Product from "./models/Product";
 import ClothSizes from "./namespace/ClothSizes";
+import ProductCategories from "./namespace/ProductCategories";
+import ProductGender from "./namespace/ProductGender";
 import ShoeSize from "./namespace/ShoeSizes";
 
 export class DeviceTypes {
@@ -45,4 +47,26 @@ export namespace Request {
 
 export class Timing {
   public static now = () => moment().valueOf();
+}
+
+export interface DetailedOrderProduct {
+  id: string;
+  price: number;
+  count: number;
+  total: number;
+  name: string;
+  description: string;
+  extraInfo: string;
+  gender: ProductGender.Status;
+  productQuantity: number;
+  images: Array<string>;
+  sizeType: SizeType;
+  productCategory: ProductCategories.Status;
+}
+
+export interface OrderProduct {
+  id: string;
+  price: number;
+  count: number;
+  total: number;
 }

@@ -5,7 +5,16 @@ import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/slices/ui.slice";
 import { useSelectState } from "../../store/selectors";
 import { cedi, ease } from "../../constants";
-import { CancelIcon } from "../Icons";
+import {
+  CancelIcon,
+  ChevronRightIcon,
+  EditIcon,
+  EyeCancelIcon,
+  EyeIcon,
+  MailIcon,
+  TrashIcon,
+  UserIcon,
+} from "../Icons";
 import colors from "../../constants/colors";
 import Button from "../Button";
 import CartItem from "../CartItem";
@@ -13,72 +22,122 @@ import { useLocation } from "react-router-dom";
 import { authenticationActions } from "../../store/slices/authentication.slice";
 import authentictionAsyncActions from "../../store/actions/authentication.action";
 import ProductCard from "../ProductCard";
+import TextInput from "../TextInput";
+import RequestManager from "../../store/request-manager";
+import userAsyncActions from "../../store/actions/user.action";
+import isAnyEmpty from "../../utils/isAnyEmpty";
+import UpdateUserRequest from "../../network/requests/UpdateUserRequest";
+import ChangePasswordRequest from "../../network/requests/ChangePasswordRequest";
+import userAddressAsyncActions from "../../store/actions/userAddress.action";
+import ordersAsyncActions from "../../store/actions/orders.action";
+import ChangePasswordView from "./ChangePasswordView";
+import AddNewAddressView from "./AddNewAddressView";
+import RadioButton from "../RadioButton";
+import { userAddressActions } from "../../store/slices/userAddress.slice";
+import EditAddressView from "./EditAddressView";
+import AddressBookView from "./AddressBookView";
+import UserDetailsView from "./UserDetailsView";
+import OrdersView from "./OrdersView";
 
-interface Props {}
-
-const Profile = (props: Props) => {
+const Profile = () => {
   const dispatch = useDispatch();
-  const { ui, user, authentication, favourites } = useSelectState();
+  const { ui, user, authentication, favourites, request, userAddress } =
+    useSelectState();
   const { pathname } = useLocation();
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = React.useState(1);
+  const [emailError, setEmailError] = React.useState("");
+  const [firstName, setFirstName] = React.useState(user?.firstname || "");
+  const [lastName, setLastName] = React.useState(user?.lastname || "");
+  const [email, setEmail] = React.useState(user?.email || "");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [currentPassword, setCurrentPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = React.useState(true);
+  const [showNewPassword, setShowNewPassword] = React.useState(true);
+  const [showPasswordView, setShowPasswordView] = React.useState(false);
+  const [showAddNewAddressView, setShowAddNewAddressView] =
+    React.useState(false);
+  const [showEditAddressView, setShowEditAddressView] = React.useState(false);
+  const [selectedAddressId, setSelectedAddressId] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [updatedAt] = React.useState(request.updatedAt);
 
   React.useEffect(() => {
-    dispatch(uiActions.setProfileModalState({ isVisible: false }));
-  }, [pathname]);
+    dispatch(userAddressAsyncActions.index());
+    dispatch(ordersAsyncActions.index());
+  }, []);
+
+  // React.useEffect(() => {
+  //   dispatch(uiActions.setProfileModalState({ isVisible: false }));
+  // }, [pathname]);
 
   const menu = [
     {
-      label: "personal details",
+      label: "orders",
       onClick: () => {
         setActiveTab(0);
       },
-      component: (
-        <>
-          <p>personal details</p>
-          {Array(10)
-            .fill("0")
-            .map((_, index) => (
-              <div
-                key={index}
-                style={{
-                  width: 200,
-                  height: 200,
-                  marginBottom: 10,
-                  background: "red",
-                }}
-              />
-            ))}
-        </>
-      ),
+      component: <OrdersView />,
     },
     {
-      label: "favourite items",
-      onClick: () => {
-        setActiveTab(1);
-      },
-      component: (
-        <>
-          <p>favorite </p>
-          <div className={classes["list"]}>
-            {favourites.list.map((product) => (
-              <ProductCard product={product} key={product.id} />
-            ))}
-          </div>
-        </>
-      ),
-    },
-    {
-      label: "past orders",
+      label: "account details",
       onClick: () => {
         setActiveTab(2);
       },
+      component: <UserDetailsView setShowPasswordView={setShowPasswordView} />,
+    },
+    {
+      label: "address book",
+      onClick: () => {
+        setActiveTab(3);
+      },
       component: (
-        <>
-          <p>past orders</p>
-        </>
+        <AddressBookView
+          setSelectedAddressId={setSelectedAddressId}
+          setShowAddNewAddressView={setShowAddNewAddressView}
+          setShowEditAddressView={setShowEditAddressView}
+        />
       ),
     },
   ];
+
+  const content = React.useMemo(() => {
+    switch (activeTab) {
+      case 0:
+        return menu[0].component;
+
+      case 1:
+        if (showPasswordView) {
+          return (
+            <ChangePasswordView goBack={() => setShowPasswordView(false)} />
+          );
+        } else {
+          return menu[1].component;
+        }
+
+      case 2:
+        if (showAddNewAddressView) {
+          return (
+            <AddNewAddressView goBack={() => setShowAddNewAddressView(false)} />
+          );
+        }
+        if (showEditAddressView) {
+          return (
+            <EditAddressView
+              selectedAddressId={selectedAddressId}
+              goBack={() => setShowEditAddressView(false)}
+            />
+          );
+        }
+
+        return menu[2].component;
+
+      default:
+        return <></>;
+    }
+  }, [activeTab, showAddNewAddressView, showPasswordView, menu]);
 
   return (
     <AnimatePresence initial={false}>
@@ -113,7 +172,9 @@ const Profile = (props: Props) => {
                   return (
                     <button
                       key={index}
-                      onClick={onClick}
+                      onClick={() => {
+                        setActiveTab(index);
+                      }}
                       className={classes["menu-item"]}
                     >
                       <p>{label}</p>
@@ -148,7 +209,13 @@ const Profile = (props: Props) => {
                 <CancelIcon width={32} height={32} color={colors.deepgrey} />
               </button>
               <div className={classes["component"]}>
-                {menu[activeTab].component}
+                {/* {menu[activeTab].component} */}
+                {/* {showPasswordView ? (
+                  <>{passwordView}</>
+                ) : (
+                  <>{menu[activeTab].component}</>
+                )} */}
+                {content}
               </div>
             </div>
           </motion.div>

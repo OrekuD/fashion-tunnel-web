@@ -10,16 +10,17 @@ interface Props {
 
 const SocketManager: React.FC<Props> = (props: Props) => {
   const dispatch = useDispatch();
+  const { authentication } = useSelectState();
 
   const [socket, setSocket] = React.useState<Socket | null>(null);
-
-  const { authentication } = useSelectState();
 
   React.useEffect(() => {
     if (!authentication.accessToken || !authentication.isAuthenticated) {
       return;
     }
-    const newSocket = io(process.env.REACT_APP_API_URL!);
+    const newSocket = io(process.env.REACT_APP_API_URL!, {
+      query: { authorization: authentication.accessToken },
+    });
 
     newSocket.on("connect", () => {
       console.log(
@@ -49,12 +50,12 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       return;
     }
 
-    // socket.on("test", (report: ReportResponse) => {
-    //   console.log("test", { report });
-    // });
+    socket.on("test", (data: any) => {
+      console.log("test", { data });
+    });
 
     return () => {
-      // socket.off("test");
+      socket.off("test");
     };
   }, [socket]);
 

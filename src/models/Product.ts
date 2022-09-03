@@ -1,4 +1,3 @@
-import ClothSizes from "../namespace/ClothSizes";
 import ProductCategories from "../namespace/ProductCategories";
 import ProductGender from "../namespace/ProductGender";
 import { SizeType } from "../types";

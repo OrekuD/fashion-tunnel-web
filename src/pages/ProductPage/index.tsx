@@ -346,10 +346,10 @@ const ProductPage = () => {
                   color={colors.deepgrey}
                 />
               </button>
-              <p className={classes["sub-total"]}>
+              {/* <p className={classes["sub-total"]}>
                 {`${cedi} ${(quantity * product?.price)?.toFixed(2)}`}
-              </p>
-              <p className={classes["sub-total"]}>{product.productQuantity}</p>
+              </p> */}
+              {/* <p className={classes["sub-total"]}>{product.productQuantity}</p> */}
             </div>
           </div>
           <div className={classes["footer"]}>

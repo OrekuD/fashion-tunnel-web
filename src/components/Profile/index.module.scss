@@ -14,8 +14,8 @@
 .modal-content {
   position: fixed;
   top: 0;
-  left: 25%;
-  width: 75%;
+  left: 35%;
+  width: 65%;
   height: 100%;
   background-color: $white;
   display: flex;
@@ -69,7 +69,7 @@
           left: 0;
           width: 0%;
           height: 2px;
-          background-color: red;
+          background-color: $deepgrey;
           z-index: 10;
           transition: width 0.3s ease-in-out;
         }
@@ -97,7 +97,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 2rem 3rem 2rem 3rem;
 
     .close-button {
       align-self: flex-end;
@@ -106,6 +106,95 @@
     .component {
       margin-top: 2rem;
       overflow-y: scroll;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .back-button {
+        align-self: flex-start;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        // background-color: red;
+        // margin-left: -12px;
+        // z-index: 5;
+
+        svg {
+          transform: rotate(180deg);
+        }
+
+        p {
+          margin-left: 0.25rem;
+        }
+      }
+
+      .address {
+        padding: 0.8rem 0rem;
+        border-top: 1px solid $lightergrey;
+        display: flex;
+        align-items: center;
+
+        .content {
+          flex: 1;
+
+          p {
+            margin: 0.2rem 0;
+          }
+
+          .name {
+            font-weight: 500;
+          }
+
+          .row {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+
+            button {
+              margin-right: 0.75rem;
+
+              &:disabled {
+                opacity: 0.5;
+              }
+            }
+          }
+        }
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        color: $deepgrey;
+        margin-bottom: 2rem;
+      }
+
+      .label {
+        font-size: 1.2rem;
+        line-height: 1.7rem;
+        color: $deepgrey;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+      }
+
+      .wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $lightergrey;
+        padding: 0.75rem 0;
+        // margin-bottom: 2rem;
+
+        p {
+          font-size: 1rem;
+          color: $deepgrey;
+        }
+      }
 
       .list {
         display: grid;
