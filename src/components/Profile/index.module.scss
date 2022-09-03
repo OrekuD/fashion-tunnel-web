@@ -23,7 +23,7 @@
   overflow: hidden;
 
   .left-content {
-    width: 25rem;
+    width: 23rem;
     background-color: #f9f6f3;
     border-left: 1px solid $lightdeepgrey;
     padding: 2rem 2rem;
@@ -125,12 +125,13 @@
 
         p {
           margin-left: 0.25rem;
+          color: $deepgrey;
         }
       }
 
       .address {
         padding: 0.8rem 0rem;
-        border-top: 1px solid $lightergrey;
+        border-bottom: 1px solid $lightergrey;
         display: flex;
         align-items: center;
 
@@ -139,6 +140,7 @@
 
           p {
             margin: 0.2rem 0;
+            color: $deepgrey;
           }
 
           .name {
@@ -158,6 +160,26 @@
               }
             }
           }
+        }
+      }
+
+      .order {
+        padding: 0.8rem 0rem;
+        border-bottom: 1px solid $lightergrey;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p {
+          margin: 0.2rem 0;
+          font-size: 0.875rem;
+          color: $deepgrey;
+          // background-color: red;
+          text-align: left;
+        }
+
+        .name {
+          font-weight: 500;
         }
       }
 

@@ -4,36 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../store/slices/ui.slice";
 import { useSelectState } from "../../store/selectors";
-import { cedi, ease } from "../../constants";
-import {
-  CancelIcon,
-  ChevronRightIcon,
-  EditIcon,
-  EyeCancelIcon,
-  EyeIcon,
-  MailIcon,
-  TrashIcon,
-  UserIcon,
-} from "../Icons";
+import { ease } from "../../constants";
+import { CancelIcon } from "../Icons";
 import colors from "../../constants/colors";
-import Button from "../Button";
-import CartItem from "../CartItem";
 import { useLocation } from "react-router-dom";
-import { authenticationActions } from "../../store/slices/authentication.slice";
 import authentictionAsyncActions from "../../store/actions/authentication.action";
-import ProductCard from "../ProductCard";
-import TextInput from "../TextInput";
-import RequestManager from "../../store/request-manager";
-import userAsyncActions from "../../store/actions/user.action";
-import isAnyEmpty from "../../utils/isAnyEmpty";
-import UpdateUserRequest from "../../network/requests/UpdateUserRequest";
-import ChangePasswordRequest from "../../network/requests/ChangePasswordRequest";
-import userAddressAsyncActions from "../../store/actions/userAddress.action";
-import ordersAsyncActions from "../../store/actions/orders.action";
 import ChangePasswordView from "./ChangePasswordView";
 import AddNewAddressView from "./AddNewAddressView";
-import RadioButton from "../RadioButton";
-import { userAddressActions } from "../../store/slices/userAddress.slice";
 import EditAddressView from "./EditAddressView";
 import AddressBookView from "./AddressBookView";
 import UserDetailsView from "./UserDetailsView";
@@ -41,37 +18,18 @@ import OrdersView from "./OrdersView";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { ui, user, authentication, favourites, request, userAddress } =
-    useSelectState();
+  const { ui, user } = useSelectState();
   const { pathname } = useLocation();
-  const [activeTab, setActiveTab] = React.useState(1);
-  const [emailError, setEmailError] = React.useState("");
-  const [firstName, setFirstName] = React.useState(user?.firstname || "");
-  const [lastName, setLastName] = React.useState(user?.lastname || "");
-  const [email, setEmail] = React.useState(user?.email || "");
-  const [passwordError, setPasswordError] = React.useState("");
-  const [currentPassword, setCurrentPassword] = React.useState("");
-  const [newPassword, setNewPassword] = React.useState("");
-  const [showCurrentPassword, setShowCurrentPassword] = React.useState(true);
-  const [showNewPassword, setShowNewPassword] = React.useState(true);
+  const [activeTab, setActiveTab] = React.useState(0);
   const [showPasswordView, setShowPasswordView] = React.useState(false);
   const [showAddNewAddressView, setShowAddNewAddressView] =
     React.useState(false);
   const [showEditAddressView, setShowEditAddressView] = React.useState(false);
   const [selectedAddressId, setSelectedAddressId] = React.useState("");
-  const [isDeleting, setIsDeleting] = React.useState(false);
-
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [updatedAt] = React.useState(request.updatedAt);
 
   React.useEffect(() => {
-    dispatch(userAddressAsyncActions.index());
-    dispatch(ordersAsyncActions.index());
-  }, []);
-
-  // React.useEffect(() => {
-  //   dispatch(uiActions.setProfileModalState({ isVisible: false }));
-  // }, [pathname]);
+    dispatch(uiActions.setProfileModalState({ isVisible: false }));
+  }, [pathname]);
 
   const menu = [
     {
@@ -167,7 +125,7 @@ const Profile = () => {
               </p>
               <div className={classes["menu"]}>
                 {/* {menu.map(({label, onPress}, index) => ()} */}
-                {menu.map(({ label, onClick }, index) => {
+                {menu.map(({ label }, index) => {
                   const isActive = index === activeTab;
                   return (
                     <button

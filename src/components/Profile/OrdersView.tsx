@@ -3,10 +3,15 @@ import { useDispatch } from "react-redux";
 import ordersAsyncActions from "../../store/actions/orders.action";
 import RequestManager from "../../store/request-manager";
 import { useSelectState } from "../../store/selectors";
+import formatOrderNumber from "../../utils/formatOrderNumber";
+import { format } from "date-fns";
 import classes from "./index.module.scss";
+import OrderStatus from "../../namespace/OrderStatus";
+import { cedi } from "../../constants";
+import { Link } from "react-router-dom";
 
 const OrdersView = () => {
-  const { request } = useSelectState();
+  const { request, orders } = useSelectState();
   const [isLoading, setIsLoading] = React.useState(true);
   const dispatch = useDispatch();
 
@@ -39,19 +44,38 @@ const OrdersView = () => {
   return (
     <>
       <p className={classes["section-title"]}>Orders</p>
-      {Array(10)
-        .fill("0")
-        .map((_, index) => (
-          <div
-            key={index}
-            style={{
-              width: 200,
-              height: 200,
-              marginBottom: 10,
-              background: "red",
-            }}
-          />
-        ))}
+      {isLoading ? (
+        <></>
+      ) : (
+        <>
+          {orders.list.length === 0 ? (
+            <div></div>
+          ) : (
+            <>
+              {orders.list.map(
+                ({ id, orderNumber, orderStatus, createdAt, total }) => {
+                  return (
+                    <Link
+                      key={id}
+                      className={classes["order"]}
+                      to={`/orders/${id}`}
+                    >
+                      <div>
+                        <p>{`# ${formatOrderNumber(orderNumber, 4)}`}</p>
+                        <p>{format(new Date(createdAt), "dd/MM/yyy")}</p>
+                      </div>
+                      <div>
+                        <p>{`${cedi} ${total.toFixed(2)}`}</p>
+                        <p>{OrderStatus.State.text(orderStatus)}</p>
+                      </div>
+                    </Link>
+                  );
+                }
+              )}
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

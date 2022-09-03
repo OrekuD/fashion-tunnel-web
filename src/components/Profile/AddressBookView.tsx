@@ -76,7 +76,7 @@ const AddressBookView = (props: Props) => {
               return (
                 <div
                   className={classes["address"]}
-                  style={{ borderTopWidth: index === 0 ? 0 : 1 }}
+                  // style={{ borderTopWidth: index === 0 ? 0 : 1 }}
                   key={id}
                 >
                   <div className={classes["content"]}>

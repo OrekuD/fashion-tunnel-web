@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { AxiosResponse } from "axios";
 import API from "./constants/api";
 import authenticationAsyncActions from "./store/actions/authentication.action";
+import OrderPage from "./pages/OrderPage";
 
 const App = () => {
   const { authentication } = useSelectState();
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="product/:id" element={<ProductPage />} />
+            <Route path="orders/:id" element={<OrderPage />} />
           </>
         ) : (
           <>
