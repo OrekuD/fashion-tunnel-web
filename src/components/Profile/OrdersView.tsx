@@ -9,6 +9,8 @@ import classes from "./index.module.scss";
 import OrderStatus from "../../namespace/OrderStatus";
 import { cedi } from "../../constants";
 import { Link } from "react-router-dom";
+import Loader from "../Loader";
+import colors from "../../constants/colors";
 
 const OrdersView = () => {
   const { request, orders } = useSelectState();
@@ -45,7 +47,9 @@ const OrdersView = () => {
     <>
       <p className={classes["section-title"]}>Orders</p>
       {isLoading ? (
-        <></>
+        <div>
+          <Loader color={colors.deepgrey} />
+        </div>
       ) : (
         <>
           {orders.list.length === 0 ? (
