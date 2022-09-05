@@ -2,16 +2,17 @@
 @import "../../scss/breakpoints.scss";
 
 .container {
-  width: 100%;
-  padding: 2rem 0;
-  //   margin-bottom: 2rem;
+  width: calc(100vw - 2rem);
+  padding: 1rem 0;
   display: flex;
   align-items: center;
   border-bottom: 1px solid $lightdeepgrey;
+  // background-color: blue;
 
   .image {
-    width: 7.5rem;
-    height: 10rem;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
   }
 
   .details {
@@ -23,28 +24,24 @@
       margin-bottom: 0.5rem;
     }
 
-    .description {
-      font-size: 0.875rem;
+    .row {
+      display: flex;
+      align-items: center;
     }
   }
 
-  .extra-detail {
-    width: 20%;
-    // background-color: yellow;
-  }
-
   .quantity {
-    width: 15%;
-    // background-color: green;
+    // width: 35%;
     display: flex;
     align-items: center;
     justify-content: center;
-    // padding: 0 1rem;
     margin-right: 1rem;
 
     .icon-button {
       width: 38px;
       height: 38px;
+      min-height: 38px;
+      min-width: 38px;
       border-radius: 50%;
       border: 1px solid $lightdeepgrey;
       display: flex;
@@ -54,17 +51,67 @@
 
     .count {
       width: 2rem;
-      //   background-color: red;
+      min-width: 2rem;
       text-align: center;
     }
   }
 
-  .price {
-    width: 15%;
-    // background-color: blue;
-  }
-
   .remove-button {
     margin-left: auto;
+  }
+
+  @include md {
+    width: 100%;
+    padding: 2rem 0;
+
+    .image {
+      width: 5rem;
+      height: 7rem;
+      object-fit: contain;
+    }
+
+    .quantity {
+      // width: 15%;
+    }
+  }
+
+  @include lg {
+    width: 100%;
+    padding: 1rem 0;
+
+    .image {
+      width: 6rem;
+      height: 9rem;
+      object-fit: contain;
+    }
+
+    .details {
+      padding-left: 1rem;
+
+      .name {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .quantity {
+      // width: 25%;
+      justify-content: flex-start;
+    }
+  }
+
+  @include xl {
+    width: 100%;
+    padding: 1rem 0;
+
+    .image {
+      width: 10rem;
+      height: 12rem;
+      object-fit: contain;
+    }
+
+    .details {
+      padding-left: 2rem;
+    }
   }
 }

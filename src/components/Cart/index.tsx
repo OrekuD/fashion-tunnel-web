@@ -19,9 +19,9 @@ const Cart = (props: Props) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    dispatch(uiActions.setCartModalState({ isVisible: false }));
-  }, [pathname]);
+  // React.useEffect(() => {
+  //   dispatch(uiActions.setCartModalState({ isVisible: false }));
+  // }, [pathname]);
 
   const summary = React.useMemo(() => {
     const data = [
@@ -63,6 +63,15 @@ const Cart = (props: Props) => {
             }}
             exit={{ translateX: "75vw" }}
           >
+            <div className={classes["floating-button"]}>
+              <Button
+                label="checkout"
+                onClick={() => {
+                  navigate("/checkout");
+                }}
+                style={{ maxWidth: "90vw", marginTop: 12 }}
+              />
+            </div>
             <button
               onClick={() =>
                 dispatch(uiActions.setCartModalState({ isVisible: false }))
@@ -73,21 +82,40 @@ const Cart = (props: Props) => {
             </button>
             <div className={classes["left-content"]}>
               <p className={classes["title"]}>Your cart</p>
+              <div className={classes["mobile-summary"]}>
+                <p className={classes["summary-title"]}>Cart summary</p>
+                {summary.map(({ label, value }, index) => (
+                  <div className={classes["item"]} key={index}>
+                    <p className={classes["key"]}>{label}</p>
+                    <p className={classes["value"]}>{value}</p>
+                  </div>
+                ))}
+
+                <div className={`${classes["item"]}`}>
+                  <p className={classes["key"]}>Total</p>
+                  <p className={classes["value"]}>{`${cedi}${cart.total.toFixed(
+                    2
+                  )}`}</p>
+                </div>
+              </div>
               {cart.products.length === 0 ? (
                 <p className={classes["no-items"]}>
                   You currently have no items in your cart.
                 </p>
               ) : (
-                <div className={classes["list"]}>
-                  {cart.products.map((product, index) => (
-                    <CartItem key={index} product={product} />
-                  ))}
-                </div>
+                <>
+                  <p className={classes["products-title"]}>Cart items</p>
+                  <div className={classes["list"]}>
+                    {cart.products.map((product, index) => (
+                      <CartItem key={index} product={product} />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
             {cart.products.length > 0 && (
               <div className={classes["right-content"]}>
-                <p className={classes["summary-title"]}>Summary</p>
+                <p className={classes["summary-title"]}>Cart summary</p>
                 {summary.map(({ label, value }, index) => (
                   <div className={classes["item"]} key={index}>
                     <p className={classes["key"]}>{label}</p>
