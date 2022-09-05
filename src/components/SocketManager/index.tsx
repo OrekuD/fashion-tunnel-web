@@ -2,7 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import io, { Socket } from "socket.io-client";
 import SocketContext from "../../contexts/SocketContext";
+import OrderStatusChangeResponse from "../../network/responses/OrderStatusChangeResponse";
 import { useSelectState } from "../../store/selectors";
+import { ordersActions } from "../../store/slices/orders.slice";
+import { Events } from "../../types";
 
 interface Props {
   children: React.ReactNode;
@@ -19,6 +22,7 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       return;
     }
     const newSocket = io(process.env.REACT_APP_API_URL!, {
+      // transports: ["websocket"],
       query: { authorization: authentication.accessToken },
     });
 
@@ -50,12 +54,13 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       return;
     }
 
-    socket.on("test", (data: any) => {
-      console.log("test", { data });
+    socket.on(Events.ORDER_STATUS_CHANGE, (data: OrderStatusChangeResponse) => {
+      console.log(Events.ORDER_STATUS_CHANGE, { data });
+      dispatch(ordersActions.updateOrderStatus(data));
     });
 
     return () => {
-      socket.off("test");
+      socket.off(Events.ORDER_STATUS_CHANGE);
     };
   }, [socket]);
 

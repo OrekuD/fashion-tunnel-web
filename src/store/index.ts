@@ -10,6 +10,7 @@ import products from "./slices/products.slice";
 import request from "./slices/request.slice";
 import favourites from "./slices/favourites.slice";
 import orders from "./slices/orders.slice";
+import order from "./slices/order.slice";
 import userAddress from "./slices/userAddress.slice";
 
 const reducers = {
@@ -22,6 +23,7 @@ const reducers = {
   favourites,
   orders,
   userAddress,
+  order,
 };
 
 const rootReducer = combineReducers(reducers);

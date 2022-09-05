@@ -1,6 +1,7 @@
 import moment from "moment";
 import Product from "./models/Product";
 import ClothSizes from "./namespace/ClothSizes";
+import OrderStatus from "./namespace/OrderStatus";
 import ProductCategories from "./namespace/ProductCategories";
 import ProductGender from "./namespace/ProductGender";
 import ShoeSize from "./namespace/ShoeSizes";
@@ -69,4 +70,17 @@ export interface OrderProduct {
   price: number;
   count: number;
   total: number;
+}
+
+export enum Events {
+  USER_ADDRESS_CREATE = "user:address:create",
+  USER_ORDER_CREATE = "user:order:create",
+  USER_PROFILE_UPDATE = "user:profile:update",
+  USER_FAVOURITE_ITEM = "user:favourite:item",
+  ORDER_STATUS_CHANGE = "order:status:change",
+}
+
+export interface OrderStatusTimeStamp {
+  status: OrderStatus.Status;
+  time: string;
 }

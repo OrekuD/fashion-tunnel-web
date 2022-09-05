@@ -19,7 +19,19 @@ namespace OrderStatus {
       [Status.CANCELLED]: "Cancelled",
     };
 
+    private static DESCRIPTION: Record<Status, string> = {
+      [Status.PENDING]: "Your order is being confirmed",
+      [Status.ACCEPTED]: "Your order has been accepted",
+      [Status.PROCESSING]: "Your order is being processed",
+      [Status.DISPATCHED]: "Your order has been dispatched",
+      [Status.DELIVERED]: "Your order has been delivered",
+      [Status.REJECTED]: "Your order has been rejected",
+      [Status.CANCELLED]: "Your order has been cancelled",
+    };
+
     public static text = (status: Status) => State.TEXT[status];
+
+    public static description = (status: Status) => State.DESCRIPTION[status];
 
     public static list = () =>
       Object.values(Status).filter(

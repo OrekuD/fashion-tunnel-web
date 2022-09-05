@@ -31,6 +31,10 @@ export interface FavouritesState {
   list: Array<Product>;
 }
 
+export interface OrderState {
+  order: Order | null;
+}
+
 export interface UserAddressState {
   list: Array<UserAddress>;
   activeAddressId: string;

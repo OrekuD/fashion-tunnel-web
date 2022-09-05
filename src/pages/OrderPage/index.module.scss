@@ -3,4 +3,188 @@
 
 .container {
   padding-top: 5rem;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  overflow: scroll;
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .left-container {
+    width: 100%;
+    padding: 2rem 2rem 0rem 2rem;
+    // background-color: red;
+
+    .title {
+      color: $deepgrey;
+      font-size: 1.6rem;
+
+      span {
+        font-weight: 500;
+      }
+    }
+
+    .status {
+      margin: 1rem 0;
+    }
+
+    .order-tracking {
+      //   padding: 0 2rem;
+
+      .status-wrapper {
+        height: 100px;
+        position: relative;
+        padding: 0rem 0 0 2.5rem;
+
+        .time {
+          font-size: 0.75rem;
+          color: $grey;
+        }
+      }
+
+      .side-panel {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 100%;
+        // background-color: yellow;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .indicator-wrapper {
+          width: 30px;
+          height: 30px;
+          //   background-color: red;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .completed-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: $green;
+          }
+
+          .pending-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: $grey;
+          }
+
+          .in-progress-indicator {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid $green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .indicator {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background-color: $green;
+            }
+          }
+        }
+
+        .line {
+          flex: 1;
+          width: 2px;
+          background-color: $grey;
+          margin: 0.7rem 0;
+        }
+      }
+    }
+  }
+
+  .right-container {
+    width: 100%;
+    padding: 0rem 2rem 2rem 2rem;
+    overflow-y: scroll;
+    // background-color: yellow;
+
+    .section {
+      padding: 1rem 0;
+      border-bottom: 1px solid $lightdeepgrey;
+
+      .section-title {
+        font-weight: 500;
+        color: $deepgrey;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        // margin-top: 1rem;
+      }
+
+      .product {
+        display: flex;
+        margin-bottom: 1rem;
+
+        .product-image {
+          width: 44px;
+          height: 44px;
+          margin-right: 1rem;
+          object-fit: contain;
+          margin-top: 0.2rem;
+        }
+
+        .content {
+          flex: 1;
+          padding-top: 0.1rem;
+
+          p {
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 1rem 0;
+      }
+    }
+  }
+
+  @include md {
+    flex-direction: row;
+
+    .left-container {
+      width: 50%;
+      height: 100%;
+      padding: 2rem 2rem;
+      border-right: 1px solid $lightdeepgrey;
+    }
+
+    .right-container {
+      width: 50%;
+      height: 100%;
+    }
+  }
+
+  @include lg {
+    flex-direction: row;
+
+    .left-container {
+      width: 50%;
+      height: 100%;
+      padding: 2rem 4rem;
+      border-right: 1px solid $lightdeepgrey;
+    }
+
+    .right-container {
+      width: 50%;
+      height: 100%;
+      padding: 2rem 4rem;
+    }
+  }
 }

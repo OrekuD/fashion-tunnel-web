@@ -9,12 +9,13 @@ interface Props {
   isLoading?: boolean;
   isDisabled?: boolean;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const Button = (props: Props) => {
   return (
     <button
-      className={classes["button"]}
+      className={`${classes["button"]} ${props.className}`}
       onClick={props.onClick}
       disabled={props.isDisabled}
       style={props.style}

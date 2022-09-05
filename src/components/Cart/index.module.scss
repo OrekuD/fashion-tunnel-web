@@ -22,6 +22,13 @@
   z-index: 10000;
   overflow: hidden;
 
+  .close-button {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    z-index: 10;
+  }
+
   .left-content {
     flex: 1;
     display: flex;
@@ -50,14 +57,10 @@
     width: 25rem;
     // background-color: $lightgrey;
     border-left: 1px solid $lightdeepgrey;
-    padding: 2rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     height: 100%;
-
-    .close-button {
-      align-self: flex-end;
-    }
 
     .summary-title {
       margin: 2rem 0;

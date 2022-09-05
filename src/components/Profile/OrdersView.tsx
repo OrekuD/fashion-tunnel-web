@@ -57,7 +57,7 @@ const OrdersView = () => {
           ) : (
             <>
               {orders.list.map(
-                ({ id, orderNumber, orderStatus, createdAt, total }) => {
+                ({ id, orderNumber, status, createdAt, total }) => {
                   return (
                     <Link
                       key={id}
@@ -70,7 +70,7 @@ const OrdersView = () => {
                       </div>
                       <div>
                         <p>{`${cedi} ${total.toFixed(2)}`}</p>
-                        <p>{OrderStatus.State.text(orderStatus)}</p>
+                        <p>{OrderStatus.State.text(status)}</p>
                       </div>
                     </Link>
                   );

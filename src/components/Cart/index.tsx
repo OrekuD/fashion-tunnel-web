@@ -63,6 +63,14 @@ const Cart = (props: Props) => {
             }}
             exit={{ translateX: "75vw" }}
           >
+            <button
+              onClick={() =>
+                dispatch(uiActions.setCartModalState({ isVisible: false }))
+              }
+              className={classes["close-button"]}
+            >
+              <CancelIcon width={32} height={32} color={colors.deepgrey} />
+            </button>
             <div className={classes["left-content"]}>
               <p className={classes["title"]}>Your cart</p>
               {cart.products.length === 0 ? (
@@ -77,37 +85,31 @@ const Cart = (props: Props) => {
                 </div>
               )}
             </div>
-            <div className={classes["right-content"]}>
-              <button
-                onClick={() =>
-                  dispatch(uiActions.setCartModalState({ isVisible: false }))
-                }
-                className={classes["close-button"]}
-              >
-                <CancelIcon width={32} height={32} color={colors.deepgrey} />
-              </button>
-              <p className={classes["summary-title"]}>Summary</p>
-              {summary.map(({ label, value }, index) => (
-                <div className={classes["item"]} key={index}>
-                  <p className={classes["key"]}>{label}</p>
-                  <p className={classes["value"]}>{value}</p>
-                </div>
-              ))}
+            {cart.products.length > 0 && (
+              <div className={classes["right-content"]}>
+                <p className={classes["summary-title"]}>Summary</p>
+                {summary.map(({ label, value }, index) => (
+                  <div className={classes["item"]} key={index}>
+                    <p className={classes["key"]}>{label}</p>
+                    <p className={classes["value"]}>{value}</p>
+                  </div>
+                ))}
 
-              <div className={`${classes["item"]}`}>
-                <p className={classes["key"]}>Total</p>
-                <p className={classes["value"]}>{`${cedi}${cart.total.toFixed(
-                  2
-                )}`}</p>
+                <div className={`${classes["item"]}`}>
+                  <p className={classes["key"]}>Total</p>
+                  <p className={classes["value"]}>{`${cedi}${cart.total.toFixed(
+                    2
+                  )}`}</p>
+                </div>
+                <Button
+                  label="checkout"
+                  onClick={() => {
+                    navigate("/checkout");
+                  }}
+                  style={{ maxWidth: "100%", marginTop: 12 }}
+                />
               </div>
-              <Button
-                label="checkout"
-                onClick={() => {
-                  navigate("/checkout");
-                }}
-                style={{ maxWidth: "100%", marginTop: 12 }}
-              />
-            </div>
+            )}
           </motion.div>
         </>
       ) : null}
