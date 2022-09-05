@@ -19,7 +19,7 @@ const ProductCard = (props: Props) => {
       />
       <p className={classes["name"]}>{props.product.name}</p>
       <p className={classes["description"]}>
-        {wrapText(props.product.description, 70)}
+        {wrapText(props.product.description, 30)}
       </p>
       <p className={classes["price"]}>{`${cedi} ${props.product.price.toFixed(
         2

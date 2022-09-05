@@ -141,6 +141,69 @@ const ProductPage = () => {
     isArrowRightPressed,
   ]);
 
+  const imageSection = (
+    <>
+      <div className={classes["middle-section"]}>
+        <button
+          className={classes["previous-button"]}
+          onClick={() => changeImage(-1)}
+        >
+          <ChevronRightIcon
+            width={24}
+            height={24}
+            color={colors.deepgrey}
+            style={{ transform: "rotate(180deg" }}
+          />
+        </button>
+        <button
+          className={classes["next-button"]}
+          onClick={() => changeImage(1)}
+        >
+          <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
+        </button>
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.img
+            key={page}
+            src={product?.images[imageIndex]}
+            custom={direction}
+            variants={imageVariant}
+            className={classes["product-image"]}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                changeImage(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                changeImage(-1);
+              }
+            }}
+          />
+        </AnimatePresence>
+        <div className={classes["pagination"]}>
+          {product?.images.map((_, index) => {
+            const active = index === page % product?.images.length;
+            return (
+              <div
+                className={classes["dot"]}
+                key={index}
+                style={{ opacity: active ? 1 : 0.5 }}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+
   if (isLoading)
     return (
       <>
@@ -166,6 +229,7 @@ const ProductPage = () => {
           <p className={classes["price"]}>{`${cedi} ${product.price?.toFixed(
             2
           )}`}</p>
+          <div className={classes["image-slider"]}>{imageSection}</div>
           <div className={classes["sections"]}>
             <div className={classes["section"]}>
               <div className={classes["section-title"]}>
@@ -183,64 +247,7 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
-        <div className={classes["middle-section"]}>
-          <button
-            className={classes["previous-button"]}
-            onClick={() => changeImage(-1)}
-          >
-            <ChevronRightIcon
-              width={24}
-              height={24}
-              color={colors.deepgrey}
-              style={{ transform: "rotate(180deg" }}
-            />
-          </button>
-          <button
-            className={classes["next-button"]}
-            onClick={() => changeImage(1)}
-          >
-            <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
-          </button>
-          <AnimatePresence initial={false} custom={direction}>
-            <motion.img
-              key={page}
-              src={product?.images[imageIndex]}
-              custom={direction}
-              variants={imageVariant}
-              className={classes["product-image"]}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
-                const swipe = swipePower(offset.x, velocity.x);
-                if (swipe < -swipeConfidenceThreshold) {
-                  changeImage(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                  changeImage(-1);
-                }
-              }}
-            />
-          </AnimatePresence>
-          <div className={classes["pagination"]}>
-            {product?.images.map((_, index) => {
-              const active = index === page % product?.images.length;
-              return (
-                <div
-                  className={classes["dot"]}
-                  key={index}
-                  style={{ opacity: active ? 1 : 0.5 }}
-                />
-              );
-            })}
-          </div>
-        </div>
+        {imageSection}
         <div className={classes["right-section"]}>
           <div
             className={classes["section"]}
@@ -346,10 +353,6 @@ const ProductPage = () => {
                   color={colors.deepgrey}
                 />
               </button>
-              {/* <p className={classes["sub-total"]}>
-                {`${cedi} ${(quantity * product?.price)?.toFixed(2)}`}
-              </p> */}
-              {/* <p className={classes["sub-total"]}>{product.productQuantity}</p> */}
             </div>
           </div>
           <div className={classes["footer"]}>
