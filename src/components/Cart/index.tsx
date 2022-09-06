@@ -19,9 +19,9 @@ const Cart = (props: Props) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // React.useEffect(() => {
-  //   dispatch(uiActions.setCartModalState({ isVisible: false }));
-  // }, [pathname]);
+  React.useEffect(() => {
+    dispatch(uiActions.setCartModalState({ isVisible: false }));
+  }, [pathname]);
 
   const summary = React.useMemo(() => {
     const data = [
@@ -40,11 +40,11 @@ const Cart = (props: Props) => {
     }
 
     return data;
-  }, [cart.discount, cart.discountPercentage, cart.subtotal, cart.total]);
+  }, [cart.discount, cart.discountPercentage, cart.subtotal]);
 
   return (
     <AnimatePresence initial={false}>
-      {ui.isCartVisible ? (
+      {ui.isCartModalVisible ? (
         <>
           <motion.div
             className={classes["modal-backdrop"]}
@@ -54,14 +54,14 @@ const Cart = (props: Props) => {
           />
           <motion.div
             className={classes["modal-content"]}
-            initial={{ translateX: "75vw" }}
+            initial={{ translateX: "100%" }}
             animate={{
               translateX: 0,
               transition: {
                 ease: ease,
               },
             }}
-            exit={{ translateX: "75vw" }}
+            exit={{ translateX: "100%" }}
           >
             <div className={classes["floating-button"]}>
               <Button

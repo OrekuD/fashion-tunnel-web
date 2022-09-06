@@ -1,0 +1,87 @@
+@import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+}
+
+.modal-menu {
+  position: fixed;
+  top: 0;
+  left: 20%;
+  height: 100%;
+  background-color: $white;
+  width: 80%;
+  z-index: 1000;
+  padding: 5rem 0 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+
+  .close-button {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    z-index: 10001;
+  }
+
+  .title {
+    margin: 1rem 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: $deepgrey;
+  }
+
+  .name {
+    margin: 1rem 0;
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: $deepgrey;
+    text-transform: capitalize;
+  }
+
+  .menu {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+
+    .menu-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+
+      .indicator {
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background-color: $deepgrey;
+        z-index: 10;
+        transition: width 0.3s ease-in-out;
+      }
+
+      p {
+        font-size: 0.975rem;
+        color: $deepgrey;
+        text-transform: uppercase;
+      }
+
+      &:hover {
+        .indicator {
+          width: 100%;
+        }
+      }
+    }
+
+    .last {
+      margin-top: auto;
+    }
+  }
+}

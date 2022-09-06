@@ -101,7 +101,7 @@ const EditAddressView = () => {
         isDisabled={!canProceed || isLoading}
         isLoading={isLoading}
         onClick={updateAddress}
-        style={{ width: 350, marginTop: "auto" }}
+        style={{ marginTop: "auto" }}
       />
     </>
   );

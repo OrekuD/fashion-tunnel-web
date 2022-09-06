@@ -9,13 +9,16 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import authentictionAsyncActions from "../../store/actions/authentication.action";
+import authenticationAsyncActions from "../../store/actions/authentication.action";
 import ChangePasswordView from "./ChangePasswordView";
 import AddNewAddressView from "./AddNewAddressView";
 import EditAddressView from "./EditAddressView";
 import AddressBookView from "./AddressBookView";
 import UserDetailsView from "./UserDetailsView";
 import OrdersView from "./OrdersView";
+import Header from "../../components/Header";
+import { AnimatePresence, motion } from "framer-motion";
+import { ease } from "../../constants";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -69,7 +72,7 @@ const Layout = () => {
           })}
           <button
             onClick={() => {
-              dispatch(authentictionAsyncActions.signout());
+              dispatch(authenticationAsyncActions.signout());
             }}
             className={`${classes["menu-item"]} ${classes["last"]}`}
           >
@@ -89,21 +92,24 @@ const Layout = () => {
 
 const ProfilePage = () => {
   return (
-    <Routes>
-      <Route path="" element={<Layout />}>
-        <Route path="account" element={<UserDetailsView />} />
-        <Route path="account/security" element={<ChangePasswordView />} />
-        <Route path="orders" element={<OrdersView />} />
-        <Route
-          path="address-book/edit/:addressId"
-          element={<EditAddressView />}
-        />
-        <Route path="address-book/create" element={<AddNewAddressView />} />
-        <Route path="orders" element={<OrdersView />} />
-        <Route path="orders" element={<OrdersView />} />
-        <Route path="address-book" element={<AddressBookView />} />
-      </Route>
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="" element={<Layout />}>
+          <Route path="account" element={<UserDetailsView />} />
+          <Route path="account/security" element={<ChangePasswordView />} />
+          <Route path="orders" element={<OrdersView />} />
+          <Route
+            path="address-book/edit/:addressId"
+            element={<EditAddressView />}
+          />
+          <Route path="address-book/create" element={<AddNewAddressView />} />
+          <Route path="orders" element={<OrdersView />} />
+          <Route path="orders" element={<OrdersView />} />
+          <Route path="address-book" element={<AddressBookView />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 

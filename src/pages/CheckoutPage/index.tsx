@@ -99,22 +99,20 @@ const CheckoutPage = () => {
         <div className={classes["section"]}>
           <p className={classes["section-title"]}>Cart details</p>
           <div className={classes["products"]}>
-            {[...cart.products, ...cart.products].map(
-              ({ count, name, images, total }, index) => (
-                <div className={classes["product"]} key={index}>
-                  <img
-                    src={images[0]}
-                    alt={name}
-                    className={classes["product-image"]}
-                  />
-                  <div className={classes["content"]}>
-                    <p>{name}</p>
-                    <p>{`${cedi} ${total.toFixed(2)}`}</p>
-                    <p>x {count}</p>
-                  </div>
+            {cart.products.map(({ count, name, images, total }, index) => (
+              <div className={classes["product"]} key={index}>
+                <img
+                  src={images[0]}
+                  alt={name}
+                  className={classes["product-image"]}
+                />
+                <div className={classes["content"]}>
+                  <p>{name}</p>
+                  <p>{`${cedi} ${total.toFixed(2)}`}</p>
+                  <p>x {count}</p>
                 </div>
-              )
-            )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -144,14 +142,20 @@ const CheckoutPage = () => {
                 </div>
                 <RadioButton isChecked onClick={() => {}} />
               </div>
-              <button className={classes["change"]}>
+              <button
+                className={classes["change"]}
+                onClick={() => navigate("/profile/address-book")}
+              >
                 <p>Change</p>
               </button>
             </>
           ) : (
             <>
               <p className={classes["no-address"]}>No address set</p>
-              <Button label="Add one" onClick={() => {}} />
+              <Button
+                label="Add one"
+                onClick={() => navigate("/profile/address-book")}
+              />
             </>
           )}
         </div>

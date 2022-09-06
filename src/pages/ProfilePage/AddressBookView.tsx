@@ -7,14 +7,16 @@ import RequestManager from "../../store/request-manager";
 import { useSelectState } from "../../store/selectors";
 import { userAddressActions } from "../../store/slices/userAddress.slice";
 import Button from "../../components/Button";
-import { EditIcon, TrashIcon } from "../../components/Icons";
+import { ChevronRightIcon, EditIcon, TrashIcon } from "../../components/Icons";
 import RadioButton from "../../components/RadioButton";
 import classes from "./index.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 const AddressBookView = () => {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const { isSmallerDevice } = useWindowResize();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,6 +50,12 @@ const AddressBookView = () => {
 
   return (
     <>
+      {/* {isSmallerDevice && (
+        <button className={classes["back-button"]} onClick={() => navigate(-1)}>
+          <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
+          <p>Go back</p>
+        </button>
+      )} */}
       <p className={classes["section-title"]}>Address book</p>
       {userAddress.list.length === 0 ? (
         <>
@@ -69,7 +77,10 @@ const AddressBookView = () => {
               return (
                 <div
                   className={classes["address"]}
-                  // style={{ borderTopWidth: index === 0 ? 0 : 1 }}
+                  style={{
+                    marginBottom:
+                      index === userAddress.list.length - 1 ? 24 : 0,
+                  }}
                   key={id}
                 >
                   <div className={classes["content"]}>
@@ -128,7 +139,7 @@ const AddressBookView = () => {
           <Button
             label="Add new address"
             onClick={() => navigate("/profile/address-book/create")}
-            style={{ marginTop: 12 }}
+            style={{ marginTop: "auto" }}
           />
         </>
       )}

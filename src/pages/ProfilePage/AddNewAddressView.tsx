@@ -95,7 +95,7 @@ const AddNewAddressView = (props: Props) => {
         isDisabled={!canProceed || isLoading}
         isLoading={isLoading}
         onClick={addNewAddress}
-        style={{ width: 350, marginTop: "auto" }}
+        style={{ marginTop: "auto" }}
       />
     </>
   );

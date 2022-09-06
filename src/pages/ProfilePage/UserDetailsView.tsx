@@ -11,6 +11,7 @@ import { ChevronRightIcon, MailIcon, UserIcon } from "../../components/Icons";
 import TextInput from "../../components/TextInput";
 import classes from "./index.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useWindowResize } from "../../hooks/useWindowResize";
 
 const UserDetailsView = () => {
   const { user, request, userAddress } = useSelectState();
@@ -21,6 +22,7 @@ const UserDetailsView = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isSmallerDevice } = useWindowResize();
 
   const [updatedAt] = React.useState(request.updatedAt);
 
@@ -69,6 +71,12 @@ const UserDetailsView = () => {
 
   return (
     <>
+      {/* {isSmallerDevice && (
+        <button className={classes["back-button"]} onClick={() => navigate(-1)}>
+          <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
+          <p>Go back</p>
+        </button>
+      )} */}
       <p className={classes["section-title"]}>Your details</p>
       <TextInput
         onChange={setFirstName}
@@ -105,7 +113,7 @@ const UserDetailsView = () => {
         isDisabled={!canProceed || isLoading}
         isLoading={isLoading}
         onClick={updateDetails}
-        style={{ width: 350, marginTop: "auto" }}
+        style={{ marginTop: "auto" }}
       />
     </>
   );

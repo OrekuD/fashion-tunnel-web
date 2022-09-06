@@ -8,11 +8,16 @@
   align-items: center;
   justify-content: center;
   border: 2px solid $grey;
+  cursor: pointer;
 
   div {
     width: 14px;
     height: 14px;
     border-radius: 50%;
     background-color: $deepgrey;
+  }
+
+  &:focus {
+    border: 2px solid $grey;
   }
 }

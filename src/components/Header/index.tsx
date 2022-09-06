@@ -2,23 +2,27 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import colors from "../../constants/colors";
+import { useWindowResize } from "../../hooks/useWindowResize";
 import { uiActions } from "../../store/slices/ui.slice";
 import Cart from "../Cart";
-import { CartIcon, Logo } from "../Icons";
-import Profile from "../Profile";
+import { CartIcon, Logo, MenuIcon } from "../Icons";
+import ProfileMenu from "../ProfileMenu";
 import classes from "./index.module.scss";
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isSmallerDevice } = useWindowResize();
 
   return (
     <>
       <Cart />
-      <Profile />
+      <ProfileMenu />
       <header className={classes["header"]}>
-        <div className={classes["left-section"]}></div>
-        <Link to="/home">
+        {/* <button className={classes["menu"]}>
+          <MenuIcon width={24} height={24} color={colors.deepgrey} />
+        </button> */}
+        <Link to="/home" className={classes["logo"]}>
           <Logo scale={1.8} color={colors.deepgrey} />
         </Link>
         <div className={classes["right-section"]}>
@@ -31,8 +35,11 @@ const Header = () => {
           </button>
           <button
             onClick={() => {
-              // dispatch(uiActions.setProfileModalState({ isVisible: true }));
-              navigate("/profile/account");
+              if (isSmallerDevice) {
+                dispatch(uiActions.setProfileModalState({ isVisible: true }));
+              } else {
+                navigate("/profile/account");
+              }
             }}
           >
             <img

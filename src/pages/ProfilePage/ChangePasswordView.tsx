@@ -118,7 +118,7 @@ const ChangePasswordView = () => {
         isDisabled={!canProceed || isLoading}
         isLoading={isLoading}
         onClick={changePassword}
-        style={{ width: 350, marginTop: "auto" }}
+        style={{ marginTop: "auto" }}
       />
     </>
   );

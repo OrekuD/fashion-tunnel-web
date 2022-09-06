@@ -6,18 +6,35 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 5rem;
-  // background-color: bisque;
+  height: 4rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0rem 2rem;
   background-color: $white;
   z-index: 10;
 
-  .left-section {
+  .logo {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    left: 4rem;
     display: flex;
     align-items: center;
+    justify-content: center;
+    // background-color: pink;
+  }
+
+  .menu {
+    position: absolute;
+    height: 100%;
+    width: 4rem;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // background-color: yellow;
   }
 
   .right-section {
@@ -41,10 +58,20 @@
   }
 
   @include md {
+    height: 4.5rem;
+
+    .menu {
+      display: none;
+    }
+
+    .logo {
+      width: calc(100% - 4rem);
+    }
   }
 
   @include lg {
     padding: 0rem 4rem;
+    height: 5rem;
   }
 
   @include xl {

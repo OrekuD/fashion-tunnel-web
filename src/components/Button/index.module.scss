@@ -1,9 +1,11 @@
 @import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
 
 .button {
   width: 100%;
-  max-width: 350px;
+  // max-width: 350px;
   height: 48px;
+  min-height: 48px;
   border-radius: 4px;
   font-size: 1.2rem;
   padding: 0 1rem;
@@ -29,5 +31,9 @@
 
   &:disabled {
     opacity: 0.6;
+  }
+
+  @include md {
+    width: 350px;
   }
 }

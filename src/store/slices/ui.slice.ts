@@ -2,8 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { UIState } from "../types";
 
 const initialState: UIState = {
-  isCartVisible: false,
-  isProfileVisible: false,
+  isCartModalVisible: false,
+  isProfileModalVisible: false,
 };
 
 const slice = createSlice({
@@ -14,13 +14,13 @@ const slice = createSlice({
       state,
       action: PayloadAction<{ isVisible: boolean }>
     ) => {
-      state.isCartVisible = action.payload.isVisible;
+      state.isCartModalVisible = action.payload.isVisible;
     },
     setProfileModalState: (
       state,
       action: PayloadAction<{ isVisible: boolean }>
     ) => {
-      state.isProfileVisible = action.payload.isVisible;
+      state.isProfileModalVisible = action.payload.isVisible;
     },
   },
 });

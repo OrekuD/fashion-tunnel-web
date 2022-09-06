@@ -11,8 +11,8 @@ export interface AuthenticationState {
 }
 
 export interface UIState {
-  isCartVisible: boolean;
-  isProfileVisible: boolean;
+  isCartModalVisible: boolean;
+  isProfileModalVisible: boolean;
 }
 
 export interface CartState {
