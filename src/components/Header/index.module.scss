@@ -65,7 +65,9 @@
     }
 
     .logo {
-      width: calc(100% - 4rem);
+      // width: calc(100% - 4rem);
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 

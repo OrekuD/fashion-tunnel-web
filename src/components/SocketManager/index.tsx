@@ -4,6 +4,7 @@ import io, { Socket } from "socket.io-client";
 import SocketContext from "../../contexts/SocketContext";
 import OrderStatusChangeResponse from "../../network/responses/OrderStatusChangeResponse";
 import { useSelectState } from "../../store/selectors";
+import { orderActions } from "../../store/slices/order.slice";
 import { ordersActions } from "../../store/slices/orders.slice";
 import { Events } from "../../types";
 
@@ -57,6 +58,7 @@ const SocketManager: React.FC<Props> = (props: Props) => {
     socket.on(Events.ORDER_STATUS_CHANGE, (data: OrderStatusChangeResponse) => {
       console.log(Events.ORDER_STATUS_CHANGE, { data });
       dispatch(ordersActions.updateOrderStatus(data));
+      dispatch(orderActions.updateOrderStatus(data));
     });
 
     return () => {

@@ -31,7 +31,7 @@ const slice = createSlice({
       action: CPA<Array<UserAddress>>
     ) => {
       state.list = action.payload;
-      if (!state.activeAddressId) {
+      if (!state.activeAddressId && action.payload.length > 0) {
         state.activeAddressId = action.payload[0].id;
       }
       postRequest(action);

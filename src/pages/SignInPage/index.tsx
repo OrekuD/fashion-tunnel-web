@@ -43,6 +43,7 @@ const SignInPage = () => {
     if (RM.isRejected(authenticationAsyncActions.signin.typePrefix)) {
       RM.consume(authenticationAsyncActions.signin.typePrefix);
       setIsLoading(false);
+      setEmailError("Your credentials are invalid");
       return;
     }
   }, [updatedAt, request.updatedAt]);
