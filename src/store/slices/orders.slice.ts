@@ -32,12 +32,12 @@ const slice = createSlice({
       if (timeStampIndex < 0) {
         statusTimeStamps.unshift({
           status: action.payload.status,
-          time: action.payload.timeStamp,
+          time: action.payload.time,
         });
       } else {
         statusTimeStamps.splice(timeStampIndex, 1, {
           status: action.payload.status,
-          time: action.payload.timeStamp,
+          time: action.payload.time,
         });
       }
       state.list.splice(orderIndex, 1, {
@@ -45,6 +45,14 @@ const slice = createSlice({
         status: action.payload.status,
         statusTimeStamps,
       });
+    },
+    addNewOrder: (state, action: PayloadAction<Order>) => {
+      const orderIndex = state.list.findIndex(
+        ({ id }) => id === action.payload.id
+      );
+      if (orderIndex < 0) {
+        state.list.unshift(action.payload);
+      }
     },
   },
   extraReducers: {

@@ -30,12 +30,12 @@ const slice = createSlice({
       if (timeStampIndex < 0) {
         statusTimeStamps.unshift({
           status: action.payload.status,
-          time: action.payload.timeStamp,
+          time: action.payload.time,
         });
       } else {
         statusTimeStamps.splice(timeStampIndex, 1, {
           status: action.payload.status,
-          time: action.payload.timeStamp,
+          time: action.payload.time,
         });
       }
 

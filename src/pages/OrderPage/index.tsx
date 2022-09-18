@@ -88,12 +88,8 @@ const OrderPage = () => {
     return data;
   }, [order?.subtotal]);
 
-  const completedOrders = React.useMemo(
-    () => [
-      OrderStatus.Status.DELIVERED,
-      OrderStatus.Status.CANCELLED,
-      OrderStatus.Status.REJECTED,
-    ],
+  const failedOrders = React.useMemo(
+    () => [OrderStatus.Status.CANCELLED, OrderStatus.Status.REJECTED],
     []
   );
 
@@ -127,61 +123,71 @@ const OrderPage = () => {
         <p className={classes["title"]}>
           Order <span>#{formatOrderNumber(order.orderNumber, 4)}</span>{" "}
         </p>
-        <p className={classes["status"]}>
-          {completedOrders.includes(order.status)
-            ? "Your order is complete"
-            : "Your order is in progress"}
-        </p>
-        <div className={classes["order-tracking"]}>
-          {orderTracking.map((orderStatus, index) => {
-            const timeStamp = order.statusTimeStamps.find(
-              ({ status }) => status === orderStatus
-            );
-            return (
-              <div key={index} className={classes["status-wrapper"]}>
-                <div className={classes["side-panel"]}>
-                  {completedOrders.includes(order.status) ? (
-                    <div className={classes["indicator-wrapper"]}>
-                      <div className={classes["completed-indicator"]} />
-                    </div>
-                  ) : (
-                    <div className={classes["indicator-wrapper"]}>
-                      {orderStatus < order.status ? (
-                        <div className={classes["completed-indicator"]} />
-                      ) : orderStatus === order.status ? (
-                        <div className={classes["in-progress-indicator"]}>
-                          <div className={classes["indicator"]} />
+
+        {failedOrders.includes(order.status) ? (
+          <p className={classes["declined"]}>Your order has been declined</p>
+        ) : (
+          <>
+            <p className={classes["status"]}>
+              {order.status === OrderStatus.Status.DELIVERED
+                ? "Your order is complete"
+                : "Your order is in progress"}
+            </p>
+            <div className={classes["order-tracking"]}>
+              {orderTracking.map((orderStatus, index) => {
+                const timeStamp = order.statusTimeStamps.find(
+                  ({ status }) => status === orderStatus
+                );
+                return (
+                  <div key={index} className={classes["status-wrapper"]}>
+                    <div className={classes["side-panel"]}>
+                      {order.status === OrderStatus.Status.DELIVERED ? (
+                        <div className={classes["indicator-wrapper"]}>
+                          <div className={classes["completed-indicator"]} />
                         </div>
                       ) : (
-                        <div className={classes["pending-indicator"]} />
+                        <div className={classes["indicator-wrapper"]}>
+                          {orderStatus < order.status ? (
+                            <div className={classes["completed-indicator"]} />
+                          ) : orderStatus === order.status ? (
+                            <div className={classes["in-progress-indicator"]}>
+                              <div className={classes["indicator"]} />
+                            </div>
+                          ) : (
+                            <div className={classes["pending-indicator"]} />
+                          )}
+                        </div>
                       )}
+                      <div
+                        className={classes["line"]}
+                        style={{
+                          backgroundColor:
+                            orderStatus <= order.status
+                              ? colors.green
+                              : colors.grey,
+                          opacity: index === orderTracking.length - 1 ? 0 : 1,
+                        }}
+                      />
                     </div>
-                  )}
-                  <div
-                    className={classes["line"]}
-                    style={{
-                      backgroundColor:
-                        orderStatus <= order.status
-                          ? colors.green
-                          : colors.grey,
-                      opacity: index === orderTracking.length - 1 ? 0 : 1,
-                    }}
-                  />
-                </div>
-                <p>{OrderStatus.State.description(orderStatus)}</p>
-                {timeStamp?.time ? (
-                  <div className={classes["row"]}>
-                    <p className={classes["time"]}>
-                      {format(new Date(timeStamp.time), "hh:mm a, dd/MM/yyy")}
-                    </p>
+                    <p>{OrderStatus.State.description(orderStatus)}</p>
+                    {timeStamp?.time ? (
+                      <div className={classes["row"]}>
+                        <p className={classes["time"]}>
+                          {format(
+                            new Date(timeStamp.time),
+                            "hh:mm a, dd/MM/yyy"
+                          )}
+                        </p>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
-                ) : (
-                  <></>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
       <div className={classes["right-container"]}>
         <div className={classes["section"]}>

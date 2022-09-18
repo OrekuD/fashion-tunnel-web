@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import io, { Socket } from "socket.io-client";
 import SocketContext from "../../contexts/SocketContext";
+import Order from "../../models/Order";
 import OrderStatusChangeResponse from "../../network/responses/OrderStatusChangeResponse";
 import { useSelectState } from "../../store/selectors";
 import { orderActions } from "../../store/slices/order.slice";
@@ -23,7 +24,6 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       return;
     }
     const newSocket = io(process.env.REACT_APP_API_URL!, {
-      // transports: ["websocket"],
       query: { authorization: authentication.accessToken },
     });
 
@@ -61,8 +61,14 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       dispatch(orderActions.updateOrderStatus(data));
     });
 
+    socket.on(Events.USER_ORDER_CREATE, (data: Order) => {
+      console.log(Events.USER_ORDER_CREATE, { data });
+      dispatch(ordersActions.addNewOrder(data));
+    });
+
     return () => {
       socket.off(Events.ORDER_STATUS_CHANGE);
+      socket.off(Events.USER_ORDER_CREATE);
     };
   }, [socket]);
 
