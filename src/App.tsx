@@ -23,11 +23,11 @@ const App = () => {
         (response: AxiosResponse<any>): AxiosResponse<any> => response,
         (error: any) => {
           if (error.response) {
-            if (error.response.status === 401) {
+            if (error.response.status === 403) {
               dispatch(authenticationAsyncActions.signout());
             }
           } else if (error.status) {
-            if (error.status === 401) {
+            if (error.status === 403) {
               dispatch(authenticationAsyncActions.signout());
             }
           }
