@@ -14,6 +14,7 @@ const initialState: User = {
   firstname: "",
   lastname: "",
   activeAddressId: "",
+  profilePicture: "",
 };
 
 const slice = createSlice({
@@ -28,9 +29,24 @@ const slice = createSlice({
       state.email = action.payload.email;
       state.firstname = action.payload.firstname;
       state.lastname = action.payload.lastname;
+      state.activeAddressId = action.payload.activeAddressId;
+      // state.profilePicture = action.payload.profilePicture;
       postRequest(action);
     },
     [userAsyncActions.updateDetails.rejected.type]: (
+      state,
+      action: CPA<ErrorResponse>
+    ) => {
+      postErrorRequest(state, action, initialState);
+    },
+    [userAsyncActions.updateProfilePicture.fulfilled.type]: (
+      state,
+      action: CPA<User>
+    ) => {
+      state.profilePicture = action.payload.profilePicture;
+      postRequest(action);
+    },
+    [userAsyncActions.updateProfilePicture.rejected.type]: (
       state,
       action: CPA<ErrorResponse>
     ) => {
@@ -55,6 +71,8 @@ const slice = createSlice({
       state.email = action.payload.user.email;
       state.firstname = action.payload.user.firstname;
       state.lastname = action.payload.user.lastname;
+      state.activeAddressId = action.payload.user.activeAddressId;
+      state.profilePicture = action.payload.user.profilePicture;
       postRequest(action);
     },
     [authenticationAsyncActions.signin.rejected.type]: (
@@ -70,6 +88,8 @@ const slice = createSlice({
       state.email = action.payload.user.email;
       state.firstname = action.payload.user.firstname;
       state.lastname = action.payload.user.lastname;
+      state.activeAddressId = action.payload.user.activeAddressId;
+      state.profilePicture = action.payload.user.profilePicture;
       postRequest(action);
     },
     [authenticationAsyncActions.signup.rejected.type]: (

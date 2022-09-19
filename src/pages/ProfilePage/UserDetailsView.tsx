@@ -108,6 +108,16 @@ const UserDetailsView = () => {
         <p>Change password</p>
         <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
       </button>
+      <p className={classes["section-title"]} style={{ marginTop: 24 }}>
+        Profile picture
+      </p>
+      <button
+        className={classes["button"]}
+        onClick={() => navigate("/profile/account/profile-image")}
+      >
+        <p>Change profile picture</p>
+        <ChevronRightIcon width={24} height={24} color={colors.deepgrey} />
+      </button>
       <Button
         label="Update"
         isDisabled={!canProceed || isLoading}

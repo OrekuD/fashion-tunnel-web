@@ -53,7 +53,9 @@ const OrdersView = () => {
       ) : (
         <>
           {orders.list.length === 0 ? (
-            <div></div>
+            <div>
+              <p>You have no orders</p>
+            </div>
           ) : (
             <>
               {orders.list.map(

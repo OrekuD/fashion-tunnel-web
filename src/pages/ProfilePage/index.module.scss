@@ -115,6 +115,43 @@
         }
       }
 
+      .profile-image-container {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        margin-top: 2rem;
+        align-self: center;
+        position: relative;
+        background-color: red;
+
+        .profile-image {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .upload-button {
+          position: absolute;
+          bottom: 6px;
+          right: 6px;
+          width: 32px;
+          height: 32px;
+          min-width: 32px;
+          min-height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $green;
+          cursor: pointer;
+        }
+      }
+
+      .upload-file {
+        display: none;
+      }
+
       .address {
         padding: 0.8rem 0rem;
         border-bottom: 1px solid $lightergrey;

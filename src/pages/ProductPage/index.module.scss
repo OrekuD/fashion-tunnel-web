@@ -223,6 +223,8 @@
         .like-button {
           width: 54px;
           height: 54px;
+          min-width: 54px;
+          min-height: 54px;
           border-radius: 50%;
           align-items: center;
           justify-content: center;
@@ -230,9 +232,22 @@
           padding-top: 0.25rem;
         }
 
-        .button {
+        .button-container {
           flex: 1;
           padding-left: 1rem;
+          // background-color: red;
+
+          .button {
+            width: 80%;
+            height: 48px;
+            border-radius: 8px;
+            background-color: $deepgrey;
+
+            p {
+              text-transform: capitalize;
+              color: $white;
+            }
+          }
         }
       }
     }
@@ -273,7 +288,7 @@
 
     @include lg {
       .left-section {
-        padding: 1rem 4rem 4rem 4rem;
+        padding: 1rem 2rem 4rem 2rem;
 
         .name {
           font-size: 2.2rem;
@@ -285,6 +300,16 @@
           font-size: 2.2rem;
           margin: 1rem 0 0 0;
         }
+      }
+
+      .right-section {
+        padding: 2rem 2rem 4rem 2rem;
+      }
+    }
+
+    @include xl {
+      .left-section {
+        padding: 1rem 4rem 4rem 4rem;
       }
 
       .right-section {

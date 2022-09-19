@@ -19,6 +19,7 @@ import OrdersView from "./OrdersView";
 import Header from "../../components/Header";
 import { AnimatePresence, motion } from "framer-motion";
 import { ease } from "../../constants";
+import ProfilePictureView from "./ProfilePictureView";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -98,6 +99,10 @@ const ProfilePage = () => {
         <Route path="" element={<Layout />}>
           <Route path="account" element={<UserDetailsView />} />
           <Route path="account/security" element={<ChangePasswordView />} />
+          <Route
+            path="account/profile-image"
+            element={<ProfilePictureView />}
+          />
           <Route path="orders" element={<OrdersView />} />
           <Route
             path="address-book/edit/:addressId"

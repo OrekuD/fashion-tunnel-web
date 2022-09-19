@@ -3,4 +3,5 @@ export default interface User {
   firstname: string;
   lastname: string;
   activeAddressId: string;
+  profilePicture: string;
 }

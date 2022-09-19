@@ -18,14 +18,19 @@
       row-gap: 32px;
       padding: 1rem 2rem;
 
+      @include sm {
+        padding: 1rem 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+      }
+
       @include md {
         padding: 1rem 2rem;
-        grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
       }
 
       @include lg {
         padding: 1rem 4rem;
-        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
       }
 
       @include xl {

@@ -12,6 +12,7 @@ import favourites from "./slices/favourites.slice";
 import orders from "./slices/orders.slice";
 import order from "./slices/order.slice";
 import userAddress from "./slices/userAddress.slice";
+import upload from "./slices/upload.slice";
 
 const reducers = {
   authentication,
@@ -24,6 +25,7 @@ const reducers = {
   orders,
   userAddress,
   order,
+  upload,
 };
 
 const rootReducer = combineReducers(reducers);

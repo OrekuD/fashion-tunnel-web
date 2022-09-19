@@ -101,6 +101,7 @@ export const EditIcon = (props: SvgProps) => (
     />
   </svg>
 );
+
 export const PlusIcon = (props: SvgProps) => (
   <svg
     width={props.width}
@@ -115,6 +116,24 @@ export const PlusIcon = (props: SvgProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+    />
+  </svg>
+);
+
+export const UploadIcon = (props: SvgProps) => (
+  <svg
+    width={props.width}
+    height={props.height}
+    viewBox="0 0 24 24"
+    style={props.style}
+    stroke={props.color}
+    strokeWidth={props.strokeWidth || 2}
+    fill="none"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"
     />
   </svg>
 );

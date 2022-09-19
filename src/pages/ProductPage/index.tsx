@@ -369,9 +369,9 @@ const ProductPage = () => {
                 <HeartIcon width={18} height={18} color={colors.deepgrey} />
               )}
             </button>
-            <div className={classes["button"]}>
-              <Button
-                label={isItemInCart ? "remove to cart" : "add to cart"}
+            <div className={classes["button-container"]}>
+              <button
+                className={classes["button"]}
                 onClick={() => {
                   if (isItemInCart) {
                     dispatch(
@@ -390,7 +390,9 @@ const ProductPage = () => {
                     );
                   }
                 }}
-              />
+              >
+                <p>{isItemInCart ? "remove to cart" : "add to cart"}</p>
+              </button>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { images } from "./../constants/index";
 import { PayloadAction } from "@reduxjs/toolkit";
 import Order from "../models/Order";
 import Product from "../models/Product";
@@ -41,6 +42,10 @@ export interface UserAddressState {
 }
 export interface OrdersState {
   list: Array<Order>;
+}
+
+export interface UploadState {
+  image: string;
 }
 
 export type CPA<T = any> = PayloadAction<T> & { dispatch: Function };

@@ -24,6 +24,10 @@ const SocketManager: React.FC<Props> = (props: Props) => {
       return;
     }
     const newSocket = io(process.env.REACT_APP_API_URL!, {
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 10000,
+      // transports: ['websocket'],
       query: { authorization: authentication.accessToken },
     });
 
