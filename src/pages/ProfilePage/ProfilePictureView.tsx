@@ -14,6 +14,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import UpdateUserProfileImageRequest from "../../network/requests/UpdateUserProfileImageRequest";
 import uploadAsyncActions from "../../store/actions/upload.action";
 import userAsyncActions from "../../store/actions/user.action";
+import avatar from "../../assets/images/avatar.webp";
 
 const ProfilePictureView = () => {
   const { request, user, upload } = useSelectState();
@@ -86,7 +87,9 @@ const ProfilePictureView = () => {
           src={
             productImage
               ? URL.createObjectURL(productImage)
-              : user.profilePicture
+              : user?.profilePicture
+              ? user.profilePicture
+              : avatar
           }
           alt={user.email}
           className={classes["profile-image"]}
