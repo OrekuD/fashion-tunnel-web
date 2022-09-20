@@ -14,9 +14,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSmallerDevice } = useWindowResize();
-  const { cart, user } = useSelectState();
+  const { cart } = useSelectState();
   const { pathname } = useLocation();
-  const [isScrollTop, setIsScrollTop] = React.useState(true);
 
   // const menu = React.useMemo(
   //   () => [
@@ -74,23 +73,7 @@ const Header = () => {
     <>
       <Cart />
       <ProfileMenu />
-      <header
-        onScroll={(e) => {
-          if ((e.target as any)?.scrollTop === 0) {
-            setIsScrollTop(true);
-            console.log("to top");
-          } else {
-            setIsScrollTop(false);
-            console.log("no to top");
-          }
-        }}
-        className={classes["header"]}
-        style={{
-          boxShadow: isScrollTop
-            ? undefined
-            : " 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028), 22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042), 100px 100px 80px rgba(0, 0, 0, 0.07)",
-        }}
-      >
+      <header className={classes["header"]}>
         <div className={classes["top-section"]}>
           <Link to="/home" className={classes["logo"]}>
             <Logo scale={1.8} color={colors.deepgrey} />
