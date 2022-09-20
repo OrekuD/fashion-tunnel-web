@@ -12,6 +12,9 @@ import API from "./constants/api";
 import authenticationAsyncActions from "./store/actions/authentication.action";
 import OrderPage from "./pages/OrderPage";
 import ProfilePage from "./pages/ProfilePage";
+import ExplorePage from "./pages/ExplorePage";
+import CategoryPage from "./pages/CategoryPage";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   const { authentication } = useSelectState();
@@ -55,6 +58,9 @@ const App = () => {
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="product/:id" element={<ProductPage />} />
             <Route path="orders/:id" element={<OrderPage />} />
+            <Route path="explore" element={<ExplorePage />} />
+            <Route path="categories" element={<CategoryPage />} />
+            <Route path="search" element={<SearchPage />} />
           </>
         ) : (
           <>

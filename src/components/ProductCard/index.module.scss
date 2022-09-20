@@ -37,6 +37,19 @@
     width: 100%;
   }
 
+  @include xl {
+    .name {
+      font-size: 1rem;
+    }
+    .description {
+      font-size: 0.875rem;
+    }
+
+    .price {
+      font-size: 0.875rem;
+    }
+  }
+
   @include xxxl {
     .name {
       font-size: 1.4rem;

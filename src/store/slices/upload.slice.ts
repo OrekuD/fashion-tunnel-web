@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ErrorResponse from "../../network/responses/ErrorResponse";
 import ImageUploadResponse from "../../network/responses/ImageUploadResponse";
-import productsAsyncActions from "../actions/products.action";
 import uploadAsyncActions from "../actions/upload.action";
 import userAsyncActions from "../actions/user.action";
 import postErrorRequest from "../postErrorRequest";

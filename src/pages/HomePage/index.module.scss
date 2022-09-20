@@ -13,39 +13,78 @@
 
     .list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(calc(min(40%, 100%)), 1fr)
+      );
       column-gap: 32px;
       row-gap: 32px;
       padding: 1rem 2rem;
+    }
 
-      @include sm {
-        padding: 1rem 2rem;
-        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    @include sm {
+      padding: 1rem 2rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(10rem, 100%)), 1fr)
+        );
       }
+    }
 
-      @include md {
-        padding: 1rem 2rem;
-        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    @include md {
+      padding: 1rem 2rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(10rem, 100%)), 1fr)
+        );
       }
+    }
 
-      @include lg {
-        padding: 1rem 4rem;
-        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+    @include lg {
+      padding: 1rem 4rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(12rem, 100%)), 1fr)
+        );
       }
+    }
 
-      @include xl {
-        padding: 1rem 8rem;
-        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+    @include xl {
+      padding: 1rem 8rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(12rem, 100%)), 1fr)
+        );
       }
+    }
 
-      @include xxl {
-        padding: 1rem 12rem;
-        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+    @include xxl {
+      padding: 1rem 12rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(15rem, 100%)), 1fr)
+        );
       }
+    }
 
-      @include xxxl {
-        padding: 1rem 14rem;
-        grid-template-columns: repeat(auto-fit, minmax(18%, 1fr));
+    @include xxxl {
+      padding: 1rem 14rem;
+
+      .list {
+        grid-template-columns: repeat(
+          auto-fill,
+          minmax(calc(min(15rem, 100%)), 1fr)
+        );
       }
     }
   }

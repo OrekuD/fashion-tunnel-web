@@ -16,16 +16,9 @@ import uploadAsyncActions from "../../store/actions/upload.action";
 import userAsyncActions from "../../store/actions/user.action";
 
 const ProfilePictureView = () => {
-  const { request, userAddress, user, upload } = useSelectState();
+  const { request, user, upload } = useSelectState();
   const navigate = useNavigate();
-  const { addressId } = useParams<{ addressId: string }>();
-  const address = React.useMemo(
-    () => userAddress.list.find(({ id }) => id === addressId),
-    [userAddress.list]
-  );
   const [productImage, setProductImage] = React.useState<File>();
-  const [postalCode, setPostalCode] = React.useState(address?.postalCode || "");
-
   const [isLoading, setIsLoading] = React.useState(false);
 
   const dispatch = useDispatch();

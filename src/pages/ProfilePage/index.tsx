@@ -92,6 +92,14 @@ const Layout = () => {
 };
 
 const ProfilePage = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (pathname === "/profile") {
+      navigate("/profile/account");
+    }
+    // console.log({ pathname });
+  }, []);
   return (
     <>
       <Header />

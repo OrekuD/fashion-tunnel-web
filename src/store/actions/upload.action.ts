@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import API from "../../constants/api";
-import Product from "../../models/Product";
 import ImageUploadResponse from "../../network/responses/ImageUploadResponse";
 import { requestActions } from "../slices/request.slice";
 

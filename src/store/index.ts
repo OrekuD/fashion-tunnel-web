@@ -13,6 +13,7 @@ import orders from "./slices/orders.slice";
 import order from "./slices/order.slice";
 import userAddress from "./slices/userAddress.slice";
 import upload from "./slices/upload.slice";
+import search from "./slices/search.slice";
 
 const reducers = {
   authentication,
@@ -26,6 +27,7 @@ const reducers = {
   userAddress,
   order,
   upload,
+  search,
 };
 
 const rootReducer = combineReducers(reducers);

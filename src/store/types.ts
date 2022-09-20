@@ -16,6 +16,11 @@ export interface UIState {
   isProfileModalVisible: boolean;
 }
 
+export interface SearchState {
+  list: Array<Product>;
+  query: string;
+}
+
 export interface CartState {
   total: number;
   subtotal: number;
