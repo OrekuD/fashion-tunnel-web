@@ -11,16 +11,12 @@ import {
 import colors from "../../constants/colors";
 import isAnyEmpty from "../../utils/isAnyEmpty";
 import classes from "./index.module.scss";
-import API from "../../constants/api";
-import AuthenticationResponse from "../../network/responses/AuthenticationResponse";
-import { AxiosResponse } from "axios";
-import { authenticationActions } from "../../store/slices/authentication.slice";
-import { userActions } from "../../store/slices/user.slice";
 import SignUpRequest from "../../network/requests/SignUpRequest";
 import { DeviceTypes } from "../../types";
 import { useSelectState } from "../../store/selectors";
 import RequestManager from "../../store/request-manager";
-import authentictionAsyncActions from "../../store/actions/authentication.action";
+import authenticationAsyncActions from "../../store/actions/authentication.action";
+import Header from "../../components/Header";
 
 const SignUpPage = () => {
   const [email, setEmail] = React.useState("");
@@ -33,6 +29,7 @@ const SignUpPage = () => {
   const { request } = useSelectState();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [updatedAt] = React.useState(request.updatedAt);
 
@@ -42,14 +39,15 @@ const SignUpPage = () => {
     }
     const RM = new RequestManager(request, dispatch);
 
-    if (RM.isFulfilled(authentictionAsyncActions.signup.typePrefix)) {
-      RM.consume(authentictionAsyncActions.signup.typePrefix);
+    if (RM.isFulfilled(authenticationAsyncActions.signup.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signup.typePrefix);
       setIsLoading(false);
+      navigate(-1);
       return;
     }
 
-    if (RM.isRejected(authentictionAsyncActions.signup.typePrefix)) {
-      RM.consume(authentictionAsyncActions.signup.typePrefix);
+    if (RM.isRejected(authenticationAsyncActions.signup.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signup.typePrefix);
       setIsLoading(false);
       return;
     }
@@ -76,62 +74,65 @@ const SignUpPage = () => {
       deviceType: DeviceTypes.WEB,
     };
 
-    dispatch(authentictionAsyncActions.signup(payload));
+    dispatch(authenticationAsyncActions.signup(payload));
   };
 
   return (
-    <div className={classes["container"]}>
-      <p className={classes["title"]}>Create a new account</p>
-      <TextInput
-        value={firstName}
-        onChange={setFirstName}
-        placeholder="First name"
-        rightIcon={<UserIcon width={24} height={24} color={colors.grey} />}
-      />
-      <TextInput
-        value={lastName}
-        onChange={setLastName}
-        placeholder="Last name"
-        rightIcon={<UserIcon width={24} height={24} color={colors.grey} />}
-      />
-      <TextInput
-        value={email}
-        onChange={(text) => {
-          setEmail(text);
-          setEmailError("");
-        }}
-        error={emailError}
-        placeholder="Email"
-        rightIcon={<MailIcon width={24} height={24} color={colors.grey} />}
-      />
-      <TextInput
-        value={password}
-        onChange={setPassword}
-        placeholder="Password"
-        type={showPassword ? "text" : "password"}
-        rightIcon={
-          <button
-            onClick={() => setShowPassword(!showPassword)}
-            style={{ marginTop: 2 }}
-          >
-            {!showPassword ? (
-              <EyeCancelIcon width={24} height={24} color={colors.grey} />
-            ) : (
-              <EyeIcon width={24} height={24} color={colors.grey} />
-            )}
-          </button>
-        }
-      />
-      <p className={classes["label"]}>
-        Already have an account? <Link to="/sign-in">Sign in</Link>
-      </p>
-      <Button
-        label="Create account"
-        onClick={handleSubmit}
-        isDisabled={isLoading || !canProceed}
-        isLoading={isLoading}
-      />
-    </div>
+    <>
+      <Header />
+      <div className={classes["container"]}>
+        <p className={classes["title"]}>Create a new account</p>
+        <TextInput
+          value={firstName}
+          onChange={setFirstName}
+          placeholder="First name"
+          rightIcon={<UserIcon width={24} height={24} color={colors.grey} />}
+        />
+        <TextInput
+          value={lastName}
+          onChange={setLastName}
+          placeholder="Last name"
+          rightIcon={<UserIcon width={24} height={24} color={colors.grey} />}
+        />
+        <TextInput
+          value={email}
+          onChange={(text) => {
+            setEmail(text);
+            setEmailError("");
+          }}
+          error={emailError}
+          placeholder="Email"
+          rightIcon={<MailIcon width={24} height={24} color={colors.grey} />}
+        />
+        <TextInput
+          value={password}
+          onChange={setPassword}
+          placeholder="Password"
+          type={showPassword ? "text" : "password"}
+          rightIcon={
+            <button
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ marginTop: 2 }}
+            >
+              {!showPassword ? (
+                <EyeCancelIcon width={24} height={24} color={colors.grey} />
+              ) : (
+                <EyeIcon width={24} height={24} color={colors.grey} />
+              )}
+            </button>
+          }
+        />
+        <p className={classes["label"]}>
+          Already have an account? <Link to="/sign-in">Sign in</Link>
+        </p>
+        <Button
+          label="Create account"
+          onClick={handleSubmit}
+          isDisabled={isLoading || !canProceed}
+          isLoading={isLoading}
+        />
+      </div>
+    </>
   );
 };
 

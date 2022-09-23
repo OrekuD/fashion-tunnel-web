@@ -12,7 +12,8 @@ import { useSelectState } from "../../store/selectors";
 import classes from "./index.module.scss";
 
 const CheckoutPage = () => {
-  const { userAddress, cart, request, orders } = useSelectState();
+  const { userAddress, cart, request, orders, authentication } =
+    useSelectState();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
@@ -130,42 +131,53 @@ const CheckoutPage = () => {
             <p>{`${cedi} ${cart.total.toFixed(2)}`}</p>
           </div>
         </div>
-        <div className={classes["section"]}>
-          <p className={classes["section-title"]}>Delivery details</p>
-          {activeAddress ? (
-            <>
-              <div className={classes["address"]}>
-                <div className={classes["content"]}>
-                  <p>{activeAddress.name}</p>
-                  <p>{activeAddress.addressLine}</p>
-                  <p>{activeAddress.postalCode}</p>
+        {authentication.isAuthenticated ? (
+          <div className={classes["section"]}>
+            <p className={classes["section-title"]}>Delivery details</p>
+            {activeAddress ? (
+              <>
+                <div className={classes["address"]}>
+                  <div className={classes["content"]}>
+                    <p>{activeAddress.name}</p>
+                    <p>{activeAddress.addressLine}</p>
+                    <p>{activeAddress.postalCode}</p>
+                  </div>
+                  <RadioButton isChecked onClick={() => {}} />
                 </div>
-                <RadioButton isChecked onClick={() => {}} />
-              </div>
-              <button
-                className={classes["change"]}
-                onClick={() => navigate("/profile/address-book")}
-              >
-                <p>Change</p>
-              </button>
-            </>
-          ) : (
-            <>
-              <p className={classes["no-address"]}>No address set</p>
-              <Button
-                label="Add one"
-                onClick={() => navigate("/profile/address-book")}
-              />
-            </>
-          )}
-        </div>
-        <Button
-          label="Confirm"
-          isDisabled={!canProceed || isLoading}
-          isLoading={isLoading}
-          onClick={handleSubmit}
-          className={classes["confirm-button"]}
-        />
+                <button
+                  className={classes["change"]}
+                  onClick={() => navigate("/profile/address-book")}
+                >
+                  <p>Change</p>
+                </button>
+              </>
+            ) : (
+              <>
+                <p className={classes["no-address"]}>No address set</p>
+                <Button
+                  label="Add one"
+                  onClick={() => navigate("/profile/address-book")}
+                />
+              </>
+            )}
+          </div>
+        ) : (
+          <>
+            <p className={classes["login"]}>You have to login to continue</p>
+            <Button label="Sign in" onClick={() => navigate("/sign-in")} />
+          </>
+        )}
+        {authentication.isAuthenticated ? (
+          <Button
+            label="Confirm"
+            isDisabled={!canProceed || isLoading}
+            isLoading={isLoading}
+            onClick={handleSubmit}
+            className={classes["confirm-button"]}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

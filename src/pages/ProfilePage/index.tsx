@@ -20,12 +20,37 @@ import Header from "../../components/Header";
 import { AnimatePresence, motion } from "framer-motion";
 import { ease } from "../../constants";
 import ProfilePictureView from "./ProfilePictureView";
+import Loader from "../../components/Loader";
+import colors from "../../constants/colors";
+import RequestManager from "../../store/request-manager";
 
 const Layout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { ui, user } = useSelectState();
+  const { ui, user, request } = useSelectState();
   const { pathname } = useLocation();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [updatedAt] = React.useState(request.updatedAt);
+
+  React.useEffect(() => {
+    if (updatedAt === request.updatedAt) {
+      return;
+    }
+    const RM = new RequestManager(request, dispatch);
+
+    if (RM.isFulfilled(authenticationAsyncActions.signout.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signout.typePrefix);
+      setIsLoading(false);
+      navigate("/home");
+      return;
+    }
+
+    if (RM.isRejected(authenticationAsyncActions.signout.typePrefix)) {
+      RM.consume(authenticationAsyncActions.signout.typePrefix);
+      setIsLoading(false);
+      return;
+    }
+  }, [updatedAt, request.updatedAt]);
 
   const menu = React.useMemo(
     () => [
@@ -73,12 +98,19 @@ const Layout = () => {
           })}
           <button
             onClick={() => {
+              setIsLoading(true);
               dispatch(authenticationAsyncActions.signout());
             }}
             className={`${classes["menu-item"]} ${classes["last"]}`}
           >
-            <p>logout</p>
-            <div className={classes["indicator"]} />
+            {isLoading ? (
+              <Loader color={colors.deepgrey} />
+            ) : (
+              <>
+                <p>logout</p>
+                <div className={classes["indicator"]} />
+              </>
+            )}
           </button>
         </div>
       </div>

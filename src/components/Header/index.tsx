@@ -14,7 +14,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isSmallerDevice } = useWindowResize();
-  const { cart } = useSelectState();
+  const { cart, authentication } = useSelectState();
   const { pathname } = useLocation();
 
   // const menu = React.useMemo(
@@ -27,13 +27,44 @@ const Header = () => {
   //   []
   // );
 
-  const menu = React.useMemo(
-    () => [
-      { label: "home", onClick: () => navigate("/home") },
-      { label: "explore", onClick: () => navigate("/explore") },
-      { label: "categories", onClick: () => navigate("/categories") },
+  // const menu = React.useMemo(
+  //   () => [
+  //     { label: "home", onClick: () => navigate("/home") },
+  //     { label: "explore", onClick: () => navigate("/explore") },
+  //     { label: "categories", onClick: () => navigate("/categories") },
+  //     {
+  //       label: "profile",
+  //       onClick: () => {
+  //         if (isSmallerDevice) {
+  //           dispatch(uiActions.setProfileModalState({ isVisible: true }));
+  //         } else {
+  //           navigate("/profile/account");
+  //         }
+  //       },
+  //     },
+  //   ],
+  //   []
+  // );
+
+  const menu = React.useMemo(() => {
+    const links = [
+      { label: "home", value: "home", onClick: () => navigate("/home") },
       {
+        label: "explore",
+        value: "explore",
+        onClick: () => navigate("/explore"),
+      },
+      {
+        label: "categories",
+        value: "categories",
+        onClick: () => navigate("/categories"),
+      },
+    ];
+
+    if (authentication.isAuthenticated) {
+      links.push({
         label: "profile",
+        value: "profile",
         onClick: () => {
           if (isSmallerDevice) {
             dispatch(uiActions.setProfileModalState({ isVisible: true }));
@@ -41,16 +72,28 @@ const Header = () => {
             navigate("/profile/account");
           }
         },
-      },
-    ],
-    []
-  );
+      });
+    } else {
+      links.push({
+        label: "sign in",
+        value: "sign-in",
+        onClick: () => {
+          navigate("/sign-in");
+        },
+      });
+    }
+
+    return links;
+  }, []);
 
   const links = () => (
     <>
       <div className={classes["menu"]}>
-        {menu.map(({ label, onClick }, index) => {
-          const isActive = pathname.includes(label);
+        {menu.map(({ label, onClick, value }, index) => {
+          const isActive =
+            value === "sign-in" && pathname === "/sign-up"
+              ? true
+              : pathname.includes(value);
           return (
             <button
               key={index}

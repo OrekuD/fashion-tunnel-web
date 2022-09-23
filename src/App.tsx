@@ -51,24 +51,19 @@ const App = () => {
   return (
     <div className={"app-main-container"}>
       <Routes>
+        <Route path="home" element={<HomePage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="product/:id" element={<ProductPage />} />
+        <Route path="orders/:id" element={<OrderPage />} />
+        <Route path="explore" element={<ExplorePage />} />
+        <Route path="categories" element={<CategoryPage />} />
+        <Route path="search" element={<SearchPage />} />
+        <Route path="sign-in" element={<SignInPage />} />
+        <Route path="sign-up" element={<SignUpPage />} />
         {authentication.isAuthenticated ? (
-          <>
-            <Route path="home" element={<HomePage />} />
-            <Route path="profile/*" element={<ProfilePage />} />
-            <Route path="checkout" element={<CheckoutPage />} />
-            <Route path="product/:id" element={<ProductPage />} />
-            <Route path="orders/:id" element={<OrderPage />} />
-            <Route path="explore" element={<ExplorePage />} />
-            <Route path="categories" element={<CategoryPage />} />
-            <Route path="search" element={<SearchPage />} />
-          </>
-        ) : (
-          <>
-            <Route path="sign-in" element={<SignInPage />} />
-            <Route path="sign-up" element={<SignUpPage />} />
-          </>
-        )}
-        <Route
+          <Route path="profile/*" element={<ProfilePage />} />
+        ) : null}
+        {/* <Route
           path="*"
           element={
             <Navigate
@@ -76,7 +71,8 @@ const App = () => {
               replace
             />
           }
-        />
+        /> */}
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </div>
   );
