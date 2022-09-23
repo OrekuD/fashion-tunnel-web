@@ -73,6 +73,16 @@
     }
   }
 
+  .right-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .heart-icon {
+    position: relative;
+    margin: 0.2rem 0 0 0.75rem;
+  }
+
   .cart-icon {
     position: relative;
     margin-top: 0.2rem;

@@ -6,7 +6,7 @@ import { useWindowResize } from "../../hooks/useWindowResize";
 import { useSelectState } from "../../store/selectors";
 import { uiActions } from "../../store/slices/ui.slice";
 import Cart from "../Cart";
-import { CartIcon, Logo, MenuIcon } from "../Icons";
+import { CartIcon, HeartIcon, Logo, MenuIcon } from "../Icons";
 import ProfileMenu from "../ProfileMenu";
 import classes from "./index.module.scss";
 
@@ -84,7 +84,7 @@ const Header = () => {
     }
 
     return links;
-  }, []);
+  }, [authentication.isAuthenticated]);
 
   const links = () => (
     <>
@@ -134,7 +134,13 @@ const Header = () => {
                   <p>{cart.products.length}</p>
                 </div>
               )}
-              <CartIcon width={32} height={32} color={colors.deepgrey} />
+              <CartIcon width={30} height={30} color={colors.deepgrey} />
+            </button>
+            <button
+              onClick={() => navigate("/wishlist")}
+              className={classes["heart-icon"]}
+            >
+              <HeartIcon width={30} height={30} color={colors.deepgrey} />
             </button>
           </div>
         </div>

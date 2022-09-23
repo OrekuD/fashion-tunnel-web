@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ExplorePage from "./pages/ExplorePage";
 import CategoryPage from "./pages/CategoryPage";
 import SearchPage from "./pages/SearchPage";
+import WishlistPage from "./pages/WishlistPage";
 
 const App = () => {
   const { authentication } = useSelectState();
@@ -56,6 +57,7 @@ const App = () => {
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="orders/:id" element={<OrderPage />} />
         <Route path="explore" element={<ExplorePage />} />
+        <Route path="wishlist" element={<WishlistPage />} />
         <Route path="categories" element={<CategoryPage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="sign-in" element={<SignInPage />} />
