@@ -34,7 +34,7 @@ const SignInPage = () => {
     if (RM.isFulfilled(authenticationAsyncActions.signin.typePrefix)) {
       RM.consume(authenticationAsyncActions.signin.typePrefix);
       setIsLoading(false);
-      navigate(-1);
+      navigate("/home");
       return;
     }
 
@@ -103,15 +103,23 @@ const SignInPage = () => {
             </button>
           }
         />
-        <p className={classes["label"]}>
-          Don't have an account? <Link to="/sign-up">Create one</Link>
-        </p>
+        {/* <p className={classes["label"]}> */}
+        <Link
+          to="/forgot-password"
+          style={{ color: colors.primary, marginBottom: 16 }}
+        >
+          Forgot Password?
+        </Link>
+        {/* </p> */}
         <Button
           label="sign in"
           onClick={handleSubmit}
           isDisabled={isLoading || !canProceed}
           isLoading={isLoading}
         />
+        <p className={classes["label"]}>
+          Don't have an account? <Link to="/sign-up">Create one</Link>
+        </p>
       </div>
     </>
   );

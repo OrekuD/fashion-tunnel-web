@@ -42,7 +42,7 @@ const SignUpPage = () => {
     if (RM.isFulfilled(authenticationAsyncActions.signup.typePrefix)) {
       RM.consume(authenticationAsyncActions.signup.typePrefix);
       setIsLoading(false);
-      navigate(-1);
+      navigate("/home");
       return;
     }
 

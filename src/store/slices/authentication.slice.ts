@@ -7,6 +7,7 @@ import postRequest from "../postRequest";
 import postErrorRequest from "../postErrorRequest";
 import ErrorResponse from "../../network/responses/ErrorResponse";
 import OkResponse from "../../network/responses/OkResponse";
+import forgotPasswordAsyncActions from "../actions/forgotPassword.action";
 
 const initialState: AuthenticationState = {
   isAuthenticated: false,
@@ -28,6 +29,15 @@ const slice = createSlice({
       API.addAccessToken(action.payload.accessToken);
       localStorage.setItem("accessToken", action.payload.accessToken);
       postRequest(action);
+    },
+    [forgotPasswordAsyncActions.resetPassword.fulfilled.type]: (
+      state,
+      action: CPA<AuthenticationResponse>
+    ) => {
+      state.accessToken = action.payload.accessToken;
+      state.isAuthenticated = true;
+      API.addAccessToken(action.payload.accessToken);
+      localStorage.setItem("accessToken", action.payload.accessToken);
     },
     [authenticationAsyncActions.signup.fulfilled.type]: (
       state,

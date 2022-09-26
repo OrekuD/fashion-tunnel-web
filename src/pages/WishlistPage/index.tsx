@@ -11,10 +11,11 @@ import { useSelectState } from "../../store/selectors";
 import classes from "./index.module.scss";
 
 const WishlistPage = () => {
-  const { user, request, favourites } = useSelectState();
+  const { request, favourites, authentication } = useSelectState();
 
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
+    if (!authentication.isAuthenticated) return;
     dispatch(favouritesAsyncActions.index());
   }, []);
 

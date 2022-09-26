@@ -21,6 +21,11 @@ export interface SearchState {
   query: string;
 }
 
+export interface ForgotPasswordState {
+  code: string;
+  email: string;
+}
+
 export interface CartState {
   total: number;
   subtotal: number;

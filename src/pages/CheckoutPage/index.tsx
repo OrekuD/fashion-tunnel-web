@@ -163,7 +163,9 @@ const CheckoutPage = () => {
           </div>
         ) : (
           <>
-            <p className={classes["login"]}>You have to login to continue</p>
+            <p className={classes["login"]}>
+              You have to log into your account to continue
+            </p>
             <Button label="Sign in" onClick={() => navigate("/sign-in")} />
           </>
         )}

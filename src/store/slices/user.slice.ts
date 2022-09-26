@@ -4,6 +4,7 @@ import AuthenticationResponse from "../../network/responses/AuthenticationRespon
 import ErrorResponse from "../../network/responses/ErrorResponse";
 import OkResponse from "../../network/responses/OkResponse";
 import authenticationAsyncActions from "../actions/authentication.action";
+import forgotPasswordAsyncActions from "../actions/forgotPassword.action";
 import userAsyncActions from "../actions/user.action";
 import postErrorRequest from "../postErrorRequest";
 import postRequest from "../postRequest";
@@ -65,6 +66,17 @@ const slice = createSlice({
       postErrorRequest(state, action, initialState);
     },
     [authenticationAsyncActions.signin.fulfilled.type]: (
+      state,
+      action: CPA<AuthenticationResponse>
+    ) => {
+      state.email = action.payload.user.email;
+      state.firstname = action.payload.user.firstname;
+      state.lastname = action.payload.user.lastname;
+      state.activeAddressId = action.payload.user.activeAddressId;
+      state.profilePicture = action.payload.user.profilePicture;
+      postRequest(action);
+    },
+    [forgotPasswordAsyncActions.resetPassword.fulfilled.type]: (
       state,
       action: CPA<AuthenticationResponse>
     ) => {

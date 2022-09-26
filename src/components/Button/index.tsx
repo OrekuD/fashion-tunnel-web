@@ -10,6 +10,7 @@ interface Props {
   isDisabled?: boolean;
   style?: React.CSSProperties;
   className?: string;
+  labelClassName?: string;
 }
 
 const Button = (props: Props) => {
@@ -23,7 +24,9 @@ const Button = (props: Props) => {
       {props.isLoading ? (
         <Loader color={colors.white} />
       ) : (
-        <p className={classes["label"]}>{props.label}</p>
+        <p className={`${classes["label"]} ${props.labelClassName}`}>
+          {props.label}
+        </p>
       )}
     </button>
   );
