@@ -21,6 +21,12 @@ const CheckoutPage = () => {
   const [updatedAt] = React.useState(request.updatedAt);
 
   React.useEffect(() => {
+    if (cart.products.length === 0) {
+      navigate(-1);
+    }
+  }, []);
+
+  React.useEffect(() => {
     if (updatedAt === request.updatedAt) {
       return;
     }

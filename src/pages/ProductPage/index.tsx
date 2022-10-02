@@ -231,7 +231,16 @@ const ProductPage = () => {
           )}`}</p>
           <div className={classes["image-slider"]}>{imageSection}</div>
           <div className={classes["sections"]}>
-            <div className={classes["section"]}>
+            <div
+              className={classes["section"]}
+              style={
+                {
+                  // paddingBottom: "0.5rem",
+                  // height: 280,
+                  // background: "white",
+                }
+              }
+            >
               <div className={classes["section-title"]}>
                 <p className={classes["title"]}>description</p>
                 <ChevronRightIcon
@@ -251,7 +260,11 @@ const ProductPage = () => {
         <div className={classes["right-section"]}>
           <div
             className={classes["section"]}
-            style={{ paddingBottom: "0.5rem" }}
+            style={{
+              paddingBottom: "0.5rem",
+              // height: 280,
+              // background: "white",
+            }}
           >
             <div className={classes["section-title"]}>
               <p className={classes["title"]}>sizes</p>
