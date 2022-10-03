@@ -12,13 +12,19 @@ import classes from "./index.module.scss";
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
-  const { ui, user } = useSelectState();
+  const { ui, user, authentication } = useSelectState();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(uiActions.setProfileModalState({ isVisible: false }));
   }, [pathname]);
+
+  React.useEffect(() => {
+    if (!authentication.isAuthenticated) {
+      dispatch(uiActions.setProfileModalState({ isVisible: false }));
+    }
+  }, [authentication.isAuthenticated]);
 
   const menu = React.useMemo(
     () => [
