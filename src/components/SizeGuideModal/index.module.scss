@@ -1,0 +1,119 @@
+@import "../../scss/colors.scss";
+@import "../../scss/breakpoints.scss";
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100000;
+  cursor: pointer;
+}
+
+.modal-content {
+  position: fixed;
+  bottom: 0;
+  left: 0%;
+  width: 100%;
+  height: 700px;
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  z-index: 1000001;
+  overflow: hidden;
+  // border-top-left-radius: 16px;
+  // border-top-right-radius: 16px;
+
+  .close-button {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 50%;
+    border: 1px solid $deepgrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 24px 24px 0 auto;
+    cursor: pointer;
+  }
+
+  @include md {
+    width: 80%;
+    left: 10%;
+    // border-top-left-radius: 16px;
+    // border-top-right-radius: 16px;
+    border-radius: 16px;
+    padding: 2rem;
+    top: 10%;
+
+    .close-button {
+      margin-top: 0;
+    }
+  }
+
+  @include lg {
+    width: 540px;
+    left: calc((100% - 540px) / 2);
+  }
+
+  .content {
+    overflow-y: scroll;
+    padding: 0 1rem;
+  }
+
+  .row {
+    display: flex;
+    // background-color: red;
+
+    .left-section {
+      flex: 1;
+      padding-right: 48px;
+      padding-top: 24px;
+
+      .name {
+        font-size: 0.875rem;
+        color: $deepgrey;
+        font-weight: 600;
+      }
+
+      .description {
+        font-size: 0.875rem;
+        color: $deepgrey;
+      }
+    }
+
+    .product-image {
+      width: 140px;
+      object-fit: contain;
+      // height: 200px;
+      // background-color: red;
+    }
+  }
+
+  .item {
+    padding: 16px 0;
+    display: flex;
+
+    .section {
+      // background-color: red;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .disclaimer {
+    margin: 24px 0;
+    color: $deepgrey;
+    font-size: 0.875rem;
+  }
+}

@@ -27,6 +27,7 @@ import RequestManager from "../../store/request-manager";
 import { productActions } from "../../store/slices/products.slice";
 import { favouritesActions } from "../../store/slices/favourites.slice";
 import favouritesAsyncActions from "../../store/actions/favourites.action";
+import SizeGuideModal from "../../components/SizeGuideModal";
 
 export const imageVariant = {
   enter: (direction: number) => {
@@ -60,6 +61,7 @@ const ProductPage = () => {
   const params = useParams<{ id: string }>();
   const [selectedSize, setSelectedSize] = React.useState<ClothSizes.Status>(-1);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [showSizeGuide, setShowSizeGuide] = React.useState(false);
   const [quantity, setQuantity] = React.useState(1);
   const { cart, products, request, favourites } = useSelectState();
   const [[page, direction], setPage] = React.useState([0, 0]);
@@ -217,32 +219,63 @@ const ProductPage = () => {
   if (!product) return <>product not found</>;
 
   return (
-    <div className={classes["container"]}>
-      <Header />
-      <div className={classes["content"]}>
-        <div className={classes["left-section"]}>
-          <p className={classes["category"]}>
-            Home / Category /{" "}
-            {ProductCategories.State.text(product.productCategory)}
-          </p>
-          <p className={classes["name"]}>{product.name}</p>
-          <p className={classes["price"]}>{`${cedi} ${product.price?.toFixed(
-            2
-          )}`}</p>
-          <div className={classes["image-slider"]}>{imageSection}</div>
-          <div className={classes["sections"]}>
+    <>
+      <SizeGuideModal
+        setIsVisible={setShowSizeGuide}
+        isVisible={showSizeGuide}
+        product={product}
+      />
+      <div className={classes["container"]}>
+        <Header />
+        <div className={classes["content"]}>
+          <div className={classes["left-section"]}>
+            <p className={classes["category"]}>
+              Home / Category /{" "}
+              {ProductCategories.State.text(product.productCategory)}
+            </p>
+            <p className={classes["name"]}>{product.name}</p>
+            <p className={classes["price"]}>{`${cedi} ${product.price?.toFixed(
+              2
+            )}`}</p>
+            <div className={classes["image-slider"]}>{imageSection}</div>
+            <div className={classes["sections"]}>
+              <div
+                className={classes["section"]}
+                style={
+                  {
+                    // paddingBottom: "0.5rem",
+                    // height: 280,
+                    // background: "white",
+                  }
+                }
+              >
+                <div className={classes["section-title"]}>
+                  <p className={classes["title"]}>description</p>
+                  <ChevronRightIcon
+                    width={24}
+                    height={24}
+                    color={colors.deepgrey}
+                    style={{
+                      transform: "rotate(90deg)",
+                    }}
+                  />
+                </div>
+                <p className={classes["title"]}>{product.description}</p>
+              </div>
+            </div>
+          </div>
+          {imageSection}
+          <div className={classes["right-section"]}>
             <div
               className={classes["section"]}
-              style={
-                {
-                  // paddingBottom: "0.5rem",
-                  // height: 280,
-                  // background: "white",
-                }
-              }
+              style={{
+                paddingBottom: "0.5rem",
+                // height: 280,
+                // background: "white",
+              }}
             >
               <div className={classes["section-title"]}>
-                <p className={classes["title"]}>description</p>
+                <p className={classes["title"]}>sizes</p>
                 <ChevronRightIcon
                   width={24}
                   height={24}
@@ -252,165 +285,152 @@ const ProductPage = () => {
                   }}
                 />
               </div>
-              <p className={classes["title"]}>{product.description}</p>
-            </div>
-          </div>
-        </div>
-        {imageSection}
-        <div className={classes["right-section"]}>
-          <div
-            className={classes["section"]}
-            style={{
-              paddingBottom: "0.5rem",
-              // height: 280,
-              // background: "white",
-            }}
-          >
-            <div className={classes["section-title"]}>
-              <p className={classes["title"]}>sizes</p>
-              <ChevronRightIcon
-                width={24}
-                height={24}
-                color={colors.deepgrey}
-                style={{
-                  transform: "rotate(90deg)",
-                }}
-              />
-            </div>
-            <div className={classes["sizes"]}>
-              {ClothSizes.State.list().map((size, index) => {
-                const isSelected = index === selectedSize;
-                return (
-                  <button
-                    className={classes["size"]}
-                    onClick={() => setSelectedSize(isSelected ? -1 : size)}
-                    style={{
-                      borderColor: isSelected
-                        ? colors.deepgrey
-                        : "rgba(41, 37, 37, 0.2)",
-                    }}
-                    key={size}
-                  >
-                    <p>{ClothSizes.State.text(size)}</p>
-                  </button>
-                );
-              })}
-            </div>
-            <Link to="#" className={classes["size-guide"]}>
-              <p>View size guide</p>
-              <ChevronRightIcon
-                width={24}
-                height={24}
-                color={colors.deepgrey}
-              />
-            </Link>
-          </div>
-          <div
-            className={`${classes["section"]} ${classes["quantity-section"]}`}
-            style={{ paddingBottom: "0.5rem" }}
-          >
-            <div className={classes["section-title"]}>
-              <p className={classes["title"]}>quantity</p>
-              <ChevronRightIcon
-                width={24}
-                height={24}
-                color={colors.deepgrey}
-                style={{
-                  transform: "rotate(90deg)",
-                }}
-              />
-            </div>
-            <div className={classes["quantity"]}>
-              <button
-                className={classes["size"]}
-                onClick={() => {
-                  setQuantity((prevValue) =>
-                    prevValue === 1 ? prevValue : prevValue - 1
+              <div className={classes["sizes"]}>
+                {ClothSizes.State.list().map((size, index) => {
+                  const isSelected = index === selectedSize;
+                  return (
+                    <button
+                      className={classes["size"]}
+                      onClick={() => setSelectedSize(isSelected ? -1 : size)}
+                      style={{
+                        borderColor: isSelected
+                          ? colors.deepgrey
+                          : "rgba(41, 37, 37, 0.2)",
+                      }}
+                      key={size}
+                    >
+                      <p>{ClothSizes.State.text(size)}</p>
+                    </button>
                   );
-                  if (isItemInCart && params.id) {
-                    dispatch(
-                      cartActions.decreaseProductCount({ productId: params.id })
-                    );
-                  }
-                }}
-                style={{
-                  opacity: quantity === 1 ? 0.5 : 1,
-                }}
-              >
-                <MinusIcon
-                  width={16}
-                  height={16}
-                  color={colors.deepgrey}
-                  strokeWidth={3}
-                />
-              </button>
-              <div className={classes["count"]}>
-                <p>{quantity}</p>
+                })}
               </div>
               <button
-                className={classes["size"]}
-                onClick={() => {
-                  setQuantity((prevValue) => prevValue + 1);
-                  if (isItemInCart && params.id) {
-                    dispatch(
-                      cartActions.increaseProductCount({ productId: params.id })
-                    );
-                  }
-                }}
-                style={{}}
+                onClick={() => setShowSizeGuide(true)}
+                className={classes["size-guide"]}
               >
-                <PlusIcon
-                  width={16}
-                  height={16}
-                  strokeWidth={3}
+                <p>View size guide</p>
+                <ChevronRightIcon
+                  width={24}
+                  height={24}
                   color={colors.deepgrey}
                 />
               </button>
             </div>
-          </div>
-          <div className={classes["footer"]}>
-            <button
-              className={classes["like-button"]}
-              onClick={() => {
-                dispatch(favouritesActions.updateFavourites({ product }));
-                dispatch(favouritesAsyncActions.updateFavourites(product.id));
-              }}
+            <div
+              className={`${classes["section"]} ${classes["quantity-section"]}`}
+              style={{ paddingBottom: "0.5rem" }}
             >
-              {isItemInFavourites ? (
-                <HeartFilledIcon width={18} height={18} color={colors.error} />
-              ) : (
-                <HeartIcon width={18} height={18} color={colors.deepgrey} />
-              )}
-            </button>
-            <div className={classes["button-container"]}>
+              <div className={classes["section-title"]}>
+                <p className={classes["title"]}>quantity</p>
+                <ChevronRightIcon
+                  width={24}
+                  height={24}
+                  color={colors.deepgrey}
+                  style={{
+                    transform: "rotate(90deg)",
+                  }}
+                />
+              </div>
+              <div className={classes["quantity"]}>
+                <button
+                  className={classes["size"]}
+                  onClick={() => {
+                    setQuantity((prevValue) =>
+                      prevValue === 1 ? prevValue : prevValue - 1
+                    );
+                    if (isItemInCart && params.id) {
+                      dispatch(
+                        cartActions.decreaseProductCount({
+                          productId: params.id,
+                        })
+                      );
+                    }
+                  }}
+                  style={{
+                    opacity: quantity === 1 ? 0.5 : 1,
+                  }}
+                >
+                  <MinusIcon
+                    width={16}
+                    height={16}
+                    color={colors.deepgrey}
+                    strokeWidth={3}
+                  />
+                </button>
+                <div className={classes["count"]}>
+                  <p>{quantity}</p>
+                </div>
+                <button
+                  className={classes["size"]}
+                  onClick={() => {
+                    setQuantity((prevValue) => prevValue + 1);
+                    if (isItemInCart && params.id) {
+                      dispatch(
+                        cartActions.increaseProductCount({
+                          productId: params.id,
+                        })
+                      );
+                    }
+                  }}
+                  style={{}}
+                >
+                  <PlusIcon
+                    width={16}
+                    height={16}
+                    strokeWidth={3}
+                    color={colors.deepgrey}
+                  />
+                </button>
+              </div>
+            </div>
+            <div className={classes["footer"]}>
               <button
-                className={classes["button"]}
+                className={classes["like-button"]}
                 onClick={() => {
-                  if (isItemInCart) {
-                    dispatch(
-                      cartActions.removeProduct({ productId: product.id })
-                    );
-                  } else {
-                    dispatch(
-                      cartActions.addProduct({
-                        product: {
-                          ...product,
-                          count: quantity,
-                          total: product.price * quantity,
-                          size: selectedSize,
-                        },
-                      })
-                    );
-                  }
+                  dispatch(favouritesActions.updateFavourites({ product }));
+                  dispatch(favouritesAsyncActions.updateFavourites(product.id));
                 }}
               >
-                <p>{isItemInCart ? "remove to cart" : "add to cart"}</p>
+                {isItemInFavourites ? (
+                  <HeartFilledIcon
+                    width={18}
+                    height={18}
+                    color={colors.error}
+                  />
+                ) : (
+                  <HeartIcon width={18} height={18} color={colors.deepgrey} />
+                )}
               </button>
+              <div className={classes["button-container"]}>
+                <button
+                  className={classes["button"]}
+                  onClick={() => {
+                    if (isItemInCart) {
+                      dispatch(
+                        cartActions.removeProduct({ productId: product.id })
+                      );
+                    } else {
+                      dispatch(
+                        cartActions.addProduct({
+                          product: {
+                            ...product,
+                            count: quantity,
+                            total: product.price * quantity,
+                            size: selectedSize,
+                          },
+                        })
+                      );
+                    }
+                  }}
+                >
+                  <p>{isItemInCart ? "remove to cart" : "add to cart"}</p>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,23 +1,16 @@
-import React, { LegacyRef, MutableRefObject, useRef } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, TextInput } from "../../components";
-import { EyeCancelIcon, EyeIcon, MailIcon } from "../../components/Icons";
-import colors from "../../constants/colors";
-import SignInRequest from "../../network/requests/SignInRequest";
-import isAnyEmpty from "../../utils/isAnyEmpty";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../../components";
 import classes from "./index.module.scss";
-import { DeviceTypes } from "../../types";
-import authenticationAsyncActions from "../../store/actions/authentication.action";
 import { useSelectState } from "../../store/selectors";
 import RequestManager from "../../store/request-manager";
 import Header from "../../components/Header";
 import { forgotPasswordActions } from "../../store/slices/forgotPassword.slice";
 import sanitizeDigit from "../../utils/sanitizeDigit";
 import useFocus from "../../hooks/useFocus";
-import { AnimatePresence, motion } from "framer-motion";
-import { ease } from "../../constants";
 import forgotPasswordAsyncActions from "../../store/actions/forgotPassword.action";
+import CodeNotReceivedModal from "./CodeNotReceivedModal";
 
 const EnterCodePage = () => {
   const navigate = useNavigate();
@@ -121,74 +114,12 @@ const EnterCodePage = () => {
 
   return (
     <>
-      <AnimatePresence initial={false}>
-        {showBottomSheet ? (
-          <>
-            <motion.div
-              className={classes["modal-backdrop"]}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowBottomSheet(false)}
-            />
-            <motion.div
-              className={classes["modal-content"]}
-              initial={{ translateY: "100%" }}
-              animate={{
-                translateY: 0,
-                transition: {
-                  ease: ease,
-                },
-              }}
-              exit={{ translateY: "100%" }}
-              drag="y"
-              dragConstraints={{ left: 0, right: 0, top: 0 }}
-              dragSnapToOrigin
-              dragElastic={{ left: 0, right: 0, top: 0, bottom: 0.2 }}
-              onDragEnd={(_, info) => {
-                if (info.offset.y > 80) {
-                  setShowBottomSheet(false);
-                }
-              }}
-            >
-              <p className={classes["title"]}>Reset code</p>
-              <p className={classes["label"]}>
-                Having problems receiving the 6 digit OTP code? The email
-                registered is <span>{` ${forgotPassword.email} `}.</span>
-              </p>
-              <p className={classes["label"]}>Is that correct?</p>
-              <div className={classes["row"]}>
-                <Button
-                  label="No, change email"
-                  onClick={() => {
-                    setShowBottomSheet(false);
-                    dispatch(forgotPasswordActions.addCode({ code: "" }));
-                    navigate(-1);
-                  }}
-                  style={{ width: "48%" }}
-                  className={classes["transparent-button"]}
-                  labelClassName={`${classes["button-label"]} ${classes["transparent-button-label"]}`}
-                />
-                <Button
-                  label="Yes, resend code"
-                  onClick={() => {
-                    setIsLoading(true);
-                    dispatch(
-                      forgotPasswordAsyncActions.forgotPassword({
-                        email: forgotPassword.email,
-                      })
-                    );
-                  }}
-                  isDisabled={isLoading}
-                  isLoading={isLoading}
-                  style={{ width: "48%" }}
-                  labelClassName={classes["button-label"]}
-                />
-              </div>
-            </motion.div>
-          </>
-        ) : null}
-      </AnimatePresence>
+      <CodeNotReceivedModal
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        setIsVisible={setShowBottomSheet}
+        isVisible={showBottomSheet}
+      />
       <Header />
       <div className={classes["container"]}>
         <p className={classes["title"]}>Enter 6 digit code</p>
