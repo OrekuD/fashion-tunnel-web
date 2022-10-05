@@ -46,25 +46,39 @@ const WishlistPage = () => {
     <div className={classes["container"]}>
       <Header />
       <div className={classes["content"]}>
-        {favourites.list.length === 0 ? (
-          <div className={classes["empty"]}>
-            <p className={classes["label"]}>Your wishlist is empty</p>
-            <Button label="Explore" onClick={() => navigate("/explore")} />
-          </div>
+        {authentication.isAuthenticated ? (
+          <>
+            {favourites.list.length === 0 ? (
+              <div className={classes["empty"]}>
+                <p className={classes["label"]}>Your wishlist is empty</p>
+                <Button label="Explore" onClick={() => navigate("/explore")} />
+              </div>
+            ) : (
+              <>
+                <div className={classes["title-section"]}>
+                  <p className={classes["title"]}>Wishlist</p>
+                  <p className={classes["sub-title"]}>
+                    {favourites.list.length === 1
+                      ? "1 item"
+                      : `${favourites.list.length} items`}
+                  </p>
+                </div>
+                <div className={classes["list"]}>
+                  {favourites.list.map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                  ))}
+                </div>
+              </>
+            )}
+          </>
         ) : (
           <>
-            <div className={classes["title-section"]}>
-              <p className={classes["title"]}>Wishlist</p>
-              <p className={classes["sub-title"]}>
-                {favourites.list.length === 1
-                  ? "1 item"
-                  : `${favourites.list.length} items`}
+            <div className={classes["empty"]}>
+              <p className={classes["label"]}>Your wishlist is empty</p>
+              <p className={classes["description"]}>
+                Sign in to view your previously saved items
               </p>
-            </div>
-            <div className={classes["list"]}>
-              {favourites.list.map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
+              <Button label="Sign in" onClick={() => navigate("/sign-in")} />
             </div>
           </>
         )}
