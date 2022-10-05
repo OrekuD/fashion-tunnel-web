@@ -41,7 +41,7 @@ const CategoryPage = () => {
               : `${categoryProducts.length} items`}
           </p>
           <div className={classes["categories"]}>
-            <button
+            {/* <button
               className={classes["tab"]}
               style={{
                 borderLeft: "1px solid rgba(41, 37, 37, 0.1)",
@@ -51,7 +51,7 @@ const CategoryPage = () => {
               }}
             >
               <FilterIcon width={24} height={24} color={colors.deepgrey} />
-            </button>
+            </button> */}
             <div className={classes["tabs"]}>
               {ProductCategories.State.list().map((productCategory, index) => {
                 const isActiveCategory = selectedCategoryId === productCategory;

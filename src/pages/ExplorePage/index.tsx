@@ -111,9 +111,9 @@ const ExplorePage = () => {
               />
               <div className={classes["gradient"]}>
                 <p className={classes["name"]}>{category.name}</p>
-                <p className={classes["products-length"]}>
+                {/* <p className={classes["products-length"]}>
                   {category.productsLength} products
-                </p>
+                </p> */}
               </div>
             </Link>
           ))}

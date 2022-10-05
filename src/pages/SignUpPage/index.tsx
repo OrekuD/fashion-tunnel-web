@@ -49,6 +49,7 @@ const SignUpPage = () => {
     if (RM.isRejected(authenticationAsyncActions.signup.typePrefix)) {
       RM.consume(authenticationAsyncActions.signup.typePrefix);
       setIsLoading(false);
+      setEmailError("The email is taken");
       return;
     }
   }, [updatedAt, request.updatedAt]);
