@@ -37,7 +37,19 @@ const ExplorePage = () => {
         id: ProductCategories.Status.DRESSES,
         name: "dresses",
         productsLength: 3,
-        uri: "https://images.unsplash.com/photo-1603252109303-2751441dd157?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c2hpcnR8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60",
+        uri: "https://images.unsplash.com/photo-1494578379344-d6c710782a3d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+      },
+      {
+        id: ProductCategories.Status.TROUSERS,
+        name: "trousers",
+        productsLength: 3,
+        uri: "https://images.unsplash.com/photo-1604176354204-9268737828e4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dHJvdXNlcnN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+      },
+      {
+        id: ProductCategories.Status.JACKET,
+        name: "jacket",
+        productsLength: 3,
+        uri: "https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8amFja2V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
       },
     ],
     []
